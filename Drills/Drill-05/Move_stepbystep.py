@@ -5,7 +5,18 @@ character = load_image('animation_sheet.png')
 
 
 def Move_1():
-    pass
+    x,y=203,535
+    frame=0
+    count=0
+    while(count<20):
+        clear_canvas()
+        character.clip_draw(frame*100,0,100,100,x,y)
+        update_canvas()
+        frame=(frame+1)%8
+        x=x-(203-132)//20
+        y=y-(535-243)//20
+        count=count+1
+        delay(0.05)
 def Move_2():
     pass
 def Move_3():
@@ -30,7 +41,7 @@ def Go_Back():
 
 
 while(True):
-    Move_1()
+    #Move_1()
     Move_2()
     Move_3()
     Move_4()
