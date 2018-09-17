@@ -44,7 +44,18 @@ def Move_535_470_to_477_203():
         count = count + 1
         delay(0.05)
 def Move_477_203_to_715_136():
-    pass
+    x, y = 477, 203
+    frame = 0
+    count = 0
+    while (count < 20):
+        clear_canvas()
+        character.clip_draw(frame * 100, 100, 100, 100, x, y)
+        update_canvas()
+        frame = (frame + 1) % 8
+        x = x - (477 - 715) // 20
+        y = y - (203 - 136) // 20
+        count = count + 1
+        delay(0.05)
 def Move_715_136_to_316_225():
     pass
 def Move_316_225_to_510_92():
@@ -65,7 +76,7 @@ while(True):
     #Move_203_535_to_132_243()
     #Move_132_243_to_535_470()
     #Move_535_470_to_477_203()
-    Move_477_203_to_715_136()
+    #Move_477_203_to_715_136()
     Move_715_136_to_316_225()
     Move_316_225_to_510_92()
     Move_510_92_to_692_518()
