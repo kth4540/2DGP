@@ -109,7 +109,18 @@ def Move_692_518_to_682_336():
         count = count + 1
         delay(0.05)
 def Move_682_336_to_712_349():
-    pass
+    x, y = 682, 336
+    frame = 0
+    count = 0
+    while (count < 20):
+        clear_canvas()
+        character.clip_draw(frame * 100, 100, 100, 100, x, y)
+        update_canvas()
+        frame = (frame + 1) % 8
+        x = x - (682 - 712) // 20
+        y = y - (336 - 349) // 20
+        count = count + 1
+        delay(0.05)
 
 def Go_Back():
     pass
@@ -125,7 +136,7 @@ while(True):
     #Move_316_225_to_510_92()
     #Move_510_92_to_692_518()
     #Move_692_518_to_682_336()
-    Move_682_336_to_712_349()
+    #Move_682_336_to_712_349()
     Go_Back()
 close_canvas()
 
