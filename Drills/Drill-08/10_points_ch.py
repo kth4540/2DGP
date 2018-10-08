@@ -25,7 +25,10 @@ def draw_curve_10_points(p1, p2, p3, p4, p5,p6,p7,p8,p9,p10):
                 -3 * t ** 3 + 4 * t ** 2 + t) * p2[0] + (t ** 3 - t ** 2) * p3[0]) / 2
         y = ((-t ** 3 + 2 * t ** 2 - t) * p10[1] + (3 * t ** 3 - 5 * t ** 2 + 2) * p1[1] + (
                 -3 * t ** 3 + 4 * t ** 2 + t) * p2[1] + (t ** 3 - t ** 2) * p3[1]) / 2
-        chararter.clip_draw(100*frame,0,100,100,x,y)
+        if(x>p1[0]):
+            chararter.clip_draw(100*frame,100,100,100,x,y)
+        elif(x<p1[0]):
+            chararter.clip_draw(100 * frame, 0, 100, 100, x, y)
         frame=(frame+1)%8
         update_canvas()
         get_events()
@@ -41,12 +44,15 @@ def draw_curve_10_points(p1, p2, p3, p4, p5,p6,p7,p8,p9,p10):
                 -3 * t ** 3 + 4 * t ** 2 + t) * p3[0] + (t ** 3 - t ** 2) * p4[0]) / 2
         y = ((-t ** 3 + 2 * t ** 2 - t) * p1[1] + (3 * t ** 3 - 5 * t ** 2 + 2) * p2[1] + (
                 -3 * t ** 3 + 4 * t ** 2 + t) * p3[1] + (t ** 3 - t ** 2) * p4[1]) / 2
-        chararter.clip_draw(100*frame,0,100,100,x,y)
+        if (x > p2[0]):
+            chararter.clip_draw(100 * frame, 100, 100, 100, x, y)
+        elif (x < p2[0]):
+            chararter.clip_draw(100 * frame, 0, 100, 100, x, y)
         frame=(frame+1)%8
         update_canvas()
         get_events()
         delay(0.05)
-# draw p2-p3
+# draw p3-p4
     for i in range(0, 100, 2):
         clear_canvas()
         map.draw(width/2,height/2)
@@ -55,7 +61,27 @@ def draw_curve_10_points(p1, p2, p3, p4, p5,p6,p7,p8,p9,p10):
                 -3 * t ** 3 + 4 * t ** 2 + t) * p4[0] + (t ** 3 - t ** 2) * p5[0]) / 2
         y = ((-t ** 3 + 2 * t ** 2 - t) * p2[1] + (3 * t ** 3 - 5 * t ** 2 + 2) * p3[1] + (
                 -3 * t ** 3 + 4 * t ** 2 + t) * p4[1] + (t ** 3 - t ** 2) * p5[1]) / 2
-        chararter.clip_draw(100*frame,0,100,100,x,y)
+        if (x > p3[0]):
+            chararter.clip_draw(100 * frame, 100, 100, 100, x, y)
+        elif (x < p3[0]):
+            chararter.clip_draw(100 * frame, 0, 100, 100, x, y)
+        frame=(frame+1)%8
+        update_canvas()
+        get_events()
+        delay(0.05)
+# draw p5-p6
+    for i in range(0, 100, 2):
+        clear_canvas()
+        map.draw(width/2,height/2)
+        t = i / 100
+        x = ((-t ** 3 + 2 * t ** 2 - t) * p3[0] + (3 * t ** 3 - 5 * t ** 2 + 2) * p4[0] + (
+                -3 * t ** 3 + 4 * t ** 2 + t) * p5[0] + (t ** 3 - t ** 2) * p6[0]) / 2
+        y = ((-t ** 3 + 2 * t ** 2 - t) * p3[1] + (3 * t ** 3 - 5 * t ** 2 + 2) * p4[1] + (
+                -3 * t ** 3 + 4 * t ** 2 + t) * p5[1] + (t ** 3 - t ** 2) * p6[1]) / 2
+        if (x > p4[0]):
+            chararter.clip_draw(100 * frame, 100, 100, 100, x, y)
+        elif (x < p4[0]):
+            chararter.clip_draw(100 * frame, 0, 100, 100, x, y)
         frame=(frame+1)%8
         update_canvas()
         get_events()
