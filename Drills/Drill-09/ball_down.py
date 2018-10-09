@@ -32,3 +32,17 @@ class Boy:
     def draw(self):
         self.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
 
+class S_Ball:
+    def __init__(self):
+        self.x,self,y=random.randint(100,700), 600
+        self.image=load_image('ball21x21.png')
+    def update(self):
+        self.y-= random.randint(1,6)
+
+class B_Ball:
+    def __init__(self):
+        self.x,self.y=random.randint(100,700),600
+        self.image=load_image('ball41x41.png')
+
+    def update(self):
+        self.y-=random.randint(1,6)
