@@ -34,10 +34,14 @@ class Boy:
 
 class S_Ball:
     def __init__(self):
-        self.x,self,y=random.randint(100,700), 600
+        self.x,self.y=random.randint(100,700), 600
         self.image=load_image('ball21x21.png')
     def update(self):
-        self.y-= random.randint(1,6)
+        self.y-= random.randint(1,10)
+        if(self.y<=0):
+            self.y=0
+    def draw(self):
+        self.image.draw(self.x,self.y)
 
 class B_Ball:
     def __init__(self):
@@ -45,7 +49,14 @@ class B_Ball:
         self.image=load_image('ball41x41.png')
 
     def update(self):
-        self.y-=random.randint(1,6)
+        self.y-=random.randint(1,10)
+        if(self.y<=0):
+            self.y=0
+
+
+    def draw(self):
+        self.image.draw(self.x,self.y)
+
 open_canvas()
 
 big_count=random.randint(1,20+1)
@@ -58,3 +69,29 @@ grass = Grass()
 
 running = True
 
+while running:
+    handle_events()
+
+    for boy in team:
+        boy.update()
+
+    for B_Ball in Big_ball:
+        B_Ball.update()
+
+    for S_Ball in Small_ball:
+        S_Ball.update()
+
+
+    clear_canvas()
+    grass.draw()
+    for boy in team:
+        boy.draw()
+    for B_Ball in Big_ball:
+        B_Ball.draw()
+    for S_Ball in Small_ball:
+        S_Ball.draw()
+    update_canvas()
+
+    delay(0.05)
+
+close_canvas()
