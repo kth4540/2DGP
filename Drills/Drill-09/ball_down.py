@@ -46,3 +46,15 @@ class B_Ball:
 
     def update(self):
         self.y-=random.randint(1,6)
+open_canvas()
+
+big_count=random.randint(1,20+1)
+small_count=20-big_count
+
+team = [Boy() for i in range(11)]
+Big_ball=[B_Ball() for i in range(big_count)]
+Small_ball=[S_Ball() for i in range(small_count)]
+grass = Grass()
+
+running = True
+
