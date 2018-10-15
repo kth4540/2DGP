@@ -74,8 +74,10 @@ def handle_events():
             game_framework.quit()
         elif event.type==SDL_KEYDOWN and event.key==SDLK_ESCAPE:
             game_framework.change_state(title_state)
-        elif event.type==SDL_KEYDOWN and event.key==SDLK_p:
-            game_framework.push_state(pause_state_2)
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_p:
+            game_framework.push_state(pause_state_1)
+        elif event.type==SDL_KEYDOWN and event.key==SDLK_l:
+            game_framework.push_state(pause_state_2) # drill-10 2번
 
 
 def update():

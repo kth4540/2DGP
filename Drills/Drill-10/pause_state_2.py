@@ -7,7 +7,7 @@ image=None
 count=0
 class Pause:
     def __init__(self):
-        self.image=load_image('pause.png')
+        self.image=load_image('pause_small.png')
     def draw(self):
         self.image.draw(400,300)
 
@@ -26,20 +26,23 @@ def handle_events():
             game_framework.quit()
         elif event.type==SDL_KEYDOWN and event.key==SDLK_ESCAPE:
             game_framework.change_state(title_state)
-        elif event.type==SDL_KEYDOWN and event.key==SDLK_p:
+        elif event.type==SDL_KEYDOWN and event.key==SDLK_l:
             game_framework.pop_state()
 
 def draw():
     global image
     global count
     clear_canvas()
-    if(count<1):
+    if(count==1):
         pause.draw()
+    main_state.boy.draw()
+    main_state.grass.draw()
     update_canvas()
 
 def update():
     global count
     count=(count+1)%2
+    delay(0.7)
 
 def pause():
     pass
