@@ -29,7 +29,10 @@ def handle_events():
             game_framework.pop_state()
 
 def draw():
-    pass
+    global image
+    clear_canvas()
+    pause.draw()
+    update_canvas()
 
 def update():
     pass
