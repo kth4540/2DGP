@@ -1,29 +1,25 @@
-import random
-import json
-import os
-import threading
-
 from pico2d import *
 
 import game_framework
 import title_state
 
 
-
 name = "MainState"
 
-cadence = None
+map=None
 heart=None
 stick=None
 skeleton=None
-map=None
+cadence = None
 bat=None
-font = None
+
 
 class Map:
     def __init__(self):
         self.image1=load_image('wall.png')
         self.image2=load_image('floor.png')
+        self.music=load_music('zone1.mp3')
+        self.music.play()
 
     def draw(self):
         for i in range(1,25+1):
@@ -37,14 +33,12 @@ class Map:
             for j in range(1,15+1):
                 self.image2.clip_draw(0,26,24,24,104+24*i,500-24*j) # 좌측 상단 바닥 좌표 = (104+24,500-24)
 
-
 class Heart:
     def __init__(self):
         self.x,self.y=400,50
         self.frame=0
         self.image=load_image('heart.png')
         self.tmp=0
-
 
     def update(self):
         self.tmp=(self.tmp+1)%200
@@ -53,7 +47,6 @@ class Heart:
 
     def draw(self):
         self.image.clip_draw(self.frame * 41, 0, 41, 52, self.x, self.y)
-
 
 class Stick():
     def __init__(self):
@@ -76,6 +69,7 @@ class Cadence:
         self.frame = 0
         self.image = load_image('clone.png')
         self.tmp=0
+        self.attack_sound=load_music('attack.mp3')
 
     def update(self):
         self.tmp=(self.tmp+1)%30
@@ -95,8 +89,7 @@ class Skeleton:
         self.life=1
 
     def update(self):
-        global cadence
-        global bat
+
         self.tmp=(self.tmp+1)%30
         self.move=(self.move+1)%200
         if(self.tmp==0):
@@ -108,7 +101,6 @@ class Skeleton:
                         self.x=self.x
                     elif(self.x-24==bat.x and self.y==bat.y):
                         self.x=self.x
-
                     else:
                         self.x-=24
 
@@ -119,7 +111,6 @@ class Skeleton:
                         self.x=self.x
                     else:
                         self.x+=24
-
 
             elif(abs(self.x-cadence.x)-abs(self.y-cadence.y)<0):
                 if(self.y-cadence.y>0):
@@ -138,11 +129,8 @@ class Skeleton:
                     else:
                         self.y+=24
 
-
-
     def draw(self):
         self.image.clip_draw(self.frame*24,28,24,28,self.x,self.y)
-
 
 class Bat:
     def __init__(self):
@@ -200,8 +188,6 @@ class Bat:
         if(self.life!=0):
             self.image.clip_draw(self.frame*24,24,24,24,self.x,self.y)
 
-
-
 def enter():
     global cadence,heart,stick,skeleton,bat,map
     cadence=Cadence()
@@ -210,7 +196,6 @@ def enter():
     map=Map()
     skeleton=Skeleton()
     bat=Bat()
-
 
 def exit():
     global cadence,heart,stick,skeleton,bat,map
@@ -244,11 +229,11 @@ def handle_events():
 
         elif event.type==SDL_KEYDOWN and event.key==SDLK_LEFT:
             if(stick.x>300):
-                if(cadence.x-24==bat.x):
+                if(cadence.x-24==bat.x and cadence.y==bat.y):
                     bat.life-=1
                     bat.x=0
                     bat.y=0
-                elif(cadence.x-24==skeleton.x):
+                elif(cadence.x-24==skeleton.x and cadence.y==skeleton.y):
                     skeleton.life-=1
                     skeleton.x=0
                     skeleton.y=0
@@ -257,11 +242,12 @@ def handle_events():
 
         elif event.type == SDL_KEYDOWN and event.key == SDLK_RIGHT:
             if (stick.x > 300):
-                if (cadence.x + 24 == bat.x):
+                if (cadence.x + 24 == bat.x and cadence.y==bat.y):
                     bat.life -= 1
                     bat.x = 0
                     bat.y = 0
-                elif (cadence.x + 24 == skeleton.x):
+
+                elif (cadence.x + 24 == skeleton.x and cadence.y==skeleton.y):
                     skeleton.life -= 1
                     skeleton.x = 0
                     skeleton.y = 0
@@ -270,11 +256,11 @@ def handle_events():
 
         elif event.type == SDL_KEYDOWN and event.key == SDLK_UP:
             if (stick.x > 300):
-                if (cadence.y + 24 == bat.y):
+                if (cadence.y + 24 == bat.y and cadence.x == bat.x):
                     bat.life -= 1
                     bat.x = 0
                     bat.y = 0
-                elif (cadence.y + 24 == skeleton.y):
+                elif (cadence.y + 24 == skeleton.y and cadence.x== skeleton.x):
                     skeleton.life -= 1
                     skeleton.x = 0
                     skeleton.y = 0
@@ -283,11 +269,11 @@ def handle_events():
 
         elif event.type == SDL_KEYDOWN and event.key == SDLK_DOWN:
             if (stick.x > 300):
-                if (cadence.y - 24 == bat.y):
+                if (cadence.y - 24 == bat.y and cadence.x == bat.x):
                     bat.life -= 1
                     bat.x = 0
                     bat.y = 0
-                elif (cadence.y - 24 == skeleton.y):
+                elif (cadence.y - 24 == skeleton.y and cadence.x == skeleton.x):
                     skeleton.life -= 1
                     skeleton.x = 0
                     skeleton.y = 0
@@ -296,8 +282,7 @@ def handle_events():
 
 
 def update():
-    global bat
-    global skeleton
+    global cadence, heart, stick, skeleton, bat, map
     heart.update()
     stick.update()
     cadence.update()
@@ -307,6 +292,7 @@ def update():
         bat.update()
 
 def draw():
+    global cadence, heart, stick, skeleton, bat, map
     clear_canvas()
     map.draw()
     cadence.draw()
