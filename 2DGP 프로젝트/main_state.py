@@ -47,12 +47,13 @@ class Heart:
 
 
     def update(self):
-        self.tmp=(self.tmp+1)%280
-        if(self.tmp==250 or self.tmp==0):
+        self.tmp=(self.tmp+1)%200
+        if(self.tmp==180 or self.tmp==0):
             self.frame=(self.frame+1)%2
 
     def draw(self):
         self.image.clip_draw(self.frame * 41, 0, 41, 52, self.x, self.y)
+
 
 class Stick():
     def __init__(self):
@@ -91,9 +92,11 @@ class Skeleton:
         self.image=load_image('skeleton.png')
         self.tmp=0
         self.move=0
+        self.life=1
 
     def update(self):
         global cadence
+        global bat
         self.tmp=(self.tmp+1)%30
         self.move=(self.move+1)%200
         if(self.tmp==0):
@@ -103,11 +106,16 @@ class Skeleton:
                 if(self.x-cadence.x>0):
                     if(self.x-24==cadence.x and self.y==cadence.y):
                         self.x=self.x
+                    elif(self.x-24==bat.x and self.y==bat.y):
+                        self.x=self.x
+
                     else:
                         self.x-=24
 
                 elif(self.x-cadence.x<0):
                     if (self.x + 24 == cadence.x and self.y == cadence.y):
+                        self.x=self.x
+                    elif(self.x+24==bat.x and self.y==bat.y):
                         self.x=self.x
                     else:
                         self.x+=24
@@ -117,11 +125,15 @@ class Skeleton:
                 if(self.y-cadence.y>0):
                     if (self.x == cadence.x and self.y-24 == cadence.y):
                         self.y=self.y
+                    elif(self.x==bat.x and self.y-24==bat.y):
+                        self.y=self.y
                     else:
                         self.y-=24
 
                 elif(self.y-cadence.y<0):
                     if (self.x == cadence.x and self.y + 24 == cadence.y):
+                        self.y=self.y
+                    elif(self.x==bat.x and self.y+24==bat.y):
                         self.y=self.y
                     else:
                         self.y+=24
@@ -139,9 +151,11 @@ class Bat:
         self.image=load_image('bat.png')
         self.tmp=0
         self.move=0
+        self.life=1
 
     def update(self):
         global cadence
+        global skeleton
         self.tmp=(self.tmp+1)%30
         self.move=(self.move+1)%200
         if(self.tmp==0):
@@ -151,11 +165,15 @@ class Bat:
                 if(self.x-cadence.x>0):
                     if(self.x-24==cadence.x and self.y==cadence.y):
                         self.x=self.x
+                    elif(self.x - 24 == skeleton.x and self.y == skeleton.y):
+                        self.x=self.x
                     else:
                         self.x-=24
 
                 elif(self.x-cadence.x<0):
                     if (self.x + 24 == cadence.x and self.y == cadence.y):
+                        self.x=self.x
+                    elif(self.x + 24 == skeleton.x and self.y == skeleton.y):
                         self.x=self.x
                     else:
                         self.x+=24
@@ -165,23 +183,22 @@ class Bat:
                 if(self.y-cadence.y>0):
                     if (self.x == cadence.x and self.y-24 == cadence.y):
                         self.y=self.y
+                    elif(self.x == skeleton.x and self.y-24 == skeleton.y):
+                        self.y=self.y
                     else:
                         self.y-=24
 
                 elif(self.y-cadence.y<0):
                     if (self.x == cadence.x and self.y + 24 == cadence.y):
                         self.y=self.y
+                    elif(self.x== cadence.x and self.y+24 == skeleton.y):
+                        self.y=self.y
                     else:
                         self.y+=24
 
-
-
     def draw(self):
-        self.image.clip_draw(self.frame*24,28,24,28,self.x,self.y)
-
-
-    def draw(self):
-        self.image.clip_draw(self.frame*24,24,24,24,self.x,self.y)
+        if(self.life!=0):
+            self.image.clip_draw(self.frame*24,24,24,24,self.x,self.y)
 
 
 
@@ -217,6 +234,7 @@ def resume():
 def handle_events():
     global cadence
     global skeleton
+    global bat
     events=get_events()
     for event in events:
         if event.type==SDL_QUIT:
@@ -226,27 +244,67 @@ def handle_events():
 
         elif event.type==SDL_KEYDOWN and event.key==SDLK_LEFT:
             if(stick.x>300):
-                cadence.x-=24
+                if(cadence.x-24==bat.x):
+                    bat.life-=1
+                    bat.x=0
+                    bat.y=0
+                elif(cadence.x-24==skeleton.x):
+                    skeleton.life-=1
+                    skeleton.x=0
+                    skeleton.y=0
+                else:
+                    cadence.x-=24
 
         elif event.type == SDL_KEYDOWN and event.key == SDLK_RIGHT:
             if (stick.x > 300):
-                cadence.x += 24
+                if (cadence.x + 24 == bat.x):
+                    bat.life -= 1
+                    bat.x = 0
+                    bat.y = 0
+                elif (cadence.x + 24 == skeleton.x):
+                    skeleton.life -= 1
+                    skeleton.x = 0
+                    skeleton.y = 0
+                else:
+                    cadence.x += 24
 
         elif event.type == SDL_KEYDOWN and event.key == SDLK_UP:
             if (stick.x > 300):
-                cadence.y += 24
+                if (cadence.y + 24 == bat.y):
+                    bat.life -= 1
+                    bat.x = 0
+                    bat.y = 0
+                elif (cadence.y + 24 == skeleton.y):
+                    skeleton.life -= 1
+                    skeleton.x = 0
+                    skeleton.y = 0
+                else:
+                    cadence.y += 24
 
         elif event.type == SDL_KEYDOWN and event.key == SDLK_DOWN:
             if (stick.x > 300):
-                cadence.y -= 24
+                if (cadence.y - 24 == bat.y):
+                    bat.life -= 1
+                    bat.x = 0
+                    bat.y = 0
+                elif (cadence.y - 24 == skeleton.y):
+                    skeleton.life -= 1
+                    skeleton.x = 0
+                    skeleton.y = 0
+                else:
+                    cadence.y -= 24
 
 
 def update():
+    global bat
+    global skeleton
     heart.update()
     stick.update()
     cadence.update()
-    skeleton.update()
-    bat.update()
+    if(skeleton.life!=0):
+        skeleton.update()
+    if(bat.life!=0):
+        bat.update()
 
 def draw():
     clear_canvas()
