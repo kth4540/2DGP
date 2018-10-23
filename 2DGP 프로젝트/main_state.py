@@ -41,8 +41,8 @@ class Heart:
         self.tmp=0
 
     def update(self):
-        self.tmp=(self.tmp+1)%200
-        if(self.tmp==180 or self.tmp==0):
+        self.tmp=(self.tmp+1)%85
+        if(self.tmp==75 or self.tmp==0):
             self.frame=(self.frame+1)%2
 
     def draw(self):
@@ -54,7 +54,7 @@ class Stick():
         self.image=load_image('stick.png')
 
     def update(self):
-        self.x+=2
+        self.x+=4.7
         if(self.x>400):
             self.x=0
 
@@ -91,7 +91,7 @@ class Skeleton:
     def update(self):
 
         self.tmp=(self.tmp+1)%30
-        self.move=(self.move+1)%200
+        self.move=(self.move+1)%170
         if(self.tmp==0):
             self.frame=(self.frame+1)%4
         if(self.move==0):
@@ -145,7 +145,7 @@ class Bat:
         global cadence
         global skeleton
         self.tmp=(self.tmp+1)%30
-        self.move=(self.move+1)%200
+        self.move=(self.move+1)%170
         if(self.tmp==0):
             self.frame=(self.frame+1)%4
         if(self.move==0):
@@ -246,6 +246,7 @@ def handle_events():
                     bat.life -= 1
                     bat.x = 0
                     bat.y = 0
+
 
                 elif (cadence.x + 24 == skeleton.x and cadence.y==skeleton.y):
                     skeleton.life -= 1
