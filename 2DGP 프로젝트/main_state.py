@@ -19,6 +19,7 @@ class Map:
         self.image1=load_image('wall.png')
         self.image2=load_image('floor.png')
         self.music=load_music('zone1.mp3')
+        self.music.set_volume(50)
         self.music.play()
 
     def draw(self):
@@ -32,6 +33,8 @@ class Map:
         for i in range(1,23+1):
             for j in range(1,15+1):
                 self.image2.clip_draw(0,26,24,24,104+24*i,500-24*j) # 좌측 상단 바닥 좌표 = (104+24,500-24)
+
+
 
 class Heart:
     def __init__(self):
@@ -69,15 +72,20 @@ class Cadence:
         self.frame = 0
         self.image = load_image('clone.png')
         self.tmp=0
-        self.attack_sound=load_music('attack.mp3')
+        self.attack_sound=load_wav('attack.wav')
 
     def update(self):
         self.tmp=(self.tmp+1)%30
         if(self.tmp==0):
             self.frame = (self.frame + 1) % 4
 
+    def attack(self):
+        self.attack_sound.set_volume(500)
+        self.attack_sound.play()
+
     def draw(self):
         self.image.clip_draw(self.frame * 24, 24, 24, 24, self.x, self.y)
+
 
 class Skeleton:
     def __init__(self):
@@ -98,34 +106,34 @@ class Skeleton:
             if(abs(self.x-cadence.x)-abs(self.y-cadence.y)>=0):
                 if(self.x-cadence.x>0):
                     if(self.x-24==cadence.x and self.y==cadence.y):
-                        self.x=self.x
+                        pass
                     elif(self.x-24==bat.x and self.y==bat.y):
-                        self.x=self.x
+                        pass
                     else:
                         self.x-=24
 
                 elif(self.x-cadence.x<0):
                     if (self.x + 24 == cadence.x and self.y == cadence.y):
-                        self.x=self.x
+                        pass
                     elif(self.x+24==bat.x and self.y==bat.y):
-                        self.x=self.x
+                        pass
                     else:
                         self.x+=24
 
             elif(abs(self.x-cadence.x)-abs(self.y-cadence.y)<0):
                 if(self.y-cadence.y>0):
                     if (self.x == cadence.x and self.y-24 == cadence.y):
-                        self.y=self.y
+                        pass
                     elif(self.x==bat.x and self.y-24==bat.y):
-                        self.y=self.y
+                        pass
                     else:
                         self.y-=24
 
                 elif(self.y-cadence.y<0):
                     if (self.x == cadence.x and self.y + 24 == cadence.y):
-                        self.y=self.y
+                        pass
                     elif(self.x==bat.x and self.y+24==bat.y):
-                        self.y=self.y
+                        pass
                     else:
                         self.y+=24
 
@@ -151,18 +159,18 @@ class Bat:
         if(self.move==0):
             if(abs(self.x-cadence.x)-abs(self.y-cadence.y)>=0):
                 if(self.x-cadence.x>0):
-                    if(self.x-24==cadence.x and self.y==cadence.y):
-                        self.x=self.x
-                    elif(self.x - 24 == skeleton.x and self.y == skeleton.y):
-                        self.x=self.x
+                    if(self.x-24==cadence.x and self.y==cadence.y): # 캐릭터와 충돌
+                        pass
+                    elif(self.x - 24 == skeleton.x and self.y == skeleton.y): # skeletion과 충돌
+                        pass
                     else:
                         self.x-=24
 
                 elif(self.x-cadence.x<0):
                     if (self.x + 24 == cadence.x and self.y == cadence.y):
-                        self.x=self.x
+                        pass
                     elif(self.x + 24 == skeleton.x and self.y == skeleton.y):
-                        self.x=self.x
+                        pass
                     else:
                         self.x+=24
 
@@ -170,17 +178,17 @@ class Bat:
             elif(abs(self.x-cadence.x)-abs(self.y-cadence.y)<0):
                 if(self.y-cadence.y>0):
                     if (self.x == cadence.x and self.y-24 == cadence.y):
-                        self.y=self.y
+                        pass
                     elif(self.x == skeleton.x and self.y-24 == skeleton.y):
-                        self.y=self.y
+                        pass
                     else:
                         self.y-=24
 
                 elif(self.y-cadence.y<0):
                     if (self.x == cadence.x and self.y + 24 == cadence.y):
-                        self.y=self.y
+                        pass
                     elif(self.x== cadence.x and self.y+24 == skeleton.y):
-                        self.y=self.y
+                        pass
                     else:
                         self.y+=24
 
@@ -220,6 +228,7 @@ def handle_events():
     global cadence
     global skeleton
     global bat
+    global map
     events=get_events()
     for event in events:
         if event.type==SDL_QUIT:
@@ -233,6 +242,8 @@ def handle_events():
                     bat.life-=1
                     bat.x=0
                     bat.y=0
+                    cadence.attack()
+
                 elif(cadence.x-24==skeleton.x and cadence.y==skeleton.y):
                     skeleton.life-=1
                     skeleton.x=0
