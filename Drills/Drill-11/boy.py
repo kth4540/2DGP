@@ -13,7 +13,9 @@ key_event_table = {
     (SDL_KEYUP, SDLK_LEFT): LEFT_UP,
     (SDL_KEYDOWN, SDLK_SPACE): SPACE,
     (SDL_KEYDOWN,SDLK_LSHIFT): SHIFT_DOWN,
-    (SDL_KEYUP,SDLK_LSHIFT): SHIFT_UP
+    (SDL_KEYUP,SDLK_LSHIFT): SHIFT_UP,
+    (SDL_KEYDOWN,SDLK_RSHIFT): SHIFT_DOWN,
+    (SDL_KEYUP,SDLK_RSHIFT): SHIFT_UP
 }
 
 
@@ -99,7 +101,7 @@ class DashState:
         elif event == LEFT_UP:
             boy.velocity += 1
         boy.dir = boy.velocity
-        boy.timer=500
+        boy.dash=100
 
     @staticmethod
     def exit(boy, event):
@@ -110,7 +112,10 @@ class DashState:
     def do(boy):
         boy.frame = (boy.frame + 1) % 8
         boy.timer -= 1
-        boy.x += boy.velocity*3
+        boy.dash-=1
+        boy.x += boy.velocity*10
+        if(boy.dash==0):
+            boy.add_event(SHIFT_UP)
         boy.x = clamp(25, boy.x, 1600 - 25)
 
     @staticmethod
@@ -150,10 +155,12 @@ class SleepState:
 next_state_table = {
     IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState,
                 SLEEP_TIMER:SleepState,SPACE:IdleState,SHIFT_DOWN:IdleState,SHIFT_UP:IdleState},
-    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState,SPACE:RunState,SHIFT_DOWN:DashState},
+    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState,
+               SPACE:RunState,SHIFT_DOWN:DashState,SHIFT_UP:RunState},
     SleepState: {LEFT_DOWN: RunState, RIGHT_DOWN: RunState, LEFT_UP: RunState, RIGHT_UP: RunState,
                  SPACE:IdleState,SHIFT_DOWN:SleepState,SHIFT_UP:SleepState},
-    DashState:{SHIFT_UP:RunState,RIGHT_UP:IdleState,LEFT_UP:IdleState,SPACE:DashState}
+    DashState:{SHIFT_UP:RunState,RIGHT_UP:IdleState,LEFT_UP:IdleState,SPACE:DashState,
+               RIGHT_DOWN:DashState,LEFT_DOWN:DashState,SHIFT_DOWN:DashState}
 }
 
 class Boy:
