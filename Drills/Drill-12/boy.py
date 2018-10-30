@@ -1,7 +1,7 @@
 import game_framework
 from pico2d import *
 from ball import Ball
-
+from ghost import Ghost
 import game_world
 
 # Boy Run Speed
@@ -115,6 +115,7 @@ class SleepState:
     @staticmethod
     def do(boy):
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
+
 
     @staticmethod
     def draw(boy):
