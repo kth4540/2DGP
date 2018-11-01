@@ -1,5 +1,6 @@
 from pico2d import*
 import game_framework
+
 import main_state
 # 프레임
 TIME_PER_ACTION = 1.0
@@ -24,26 +25,38 @@ key_event_table = {
 class IdleState:
     @staticmethod
     def enter(cadence,event):
-        if event==RIGHT_ON:
-            cadence.vertical+=1
-        elif event==LEFT_ON:
-            cadence.vertical-=1
+        if event==RIGHT_ON and cadence.rhythm>=300:
+            cadence.dir=1
+        elif event==LEFT_ON and cadence.rhythm>=300:
+            cadence.dir=-1
         elif event==UP_ON:
-            cadence.horizon+=1
+            pass
         elif event==DOWN_ON:
-            cadence.horizon-=1
+            pass
         elif event==RIGHT_OFF:
-            cadence.vertical-=1
+            pass
         elif event==LEFT_OFF:
-            cadence.vertical+=1
+            pass
         elif event == UP_OFF:
-            cadence.horizon -= 1
+            pass
         elif event == DOWN_OFF:
-            cadence.horizon += 1
+            pass
 
     @staticmethod
     def exit(cadence,event):
-        pass
+        if event==RIGHT_ON and cadence.act==False and cadence.rhythm>=300:
+            cadence.x += 24
+            cadence.act = True
+        elif event==LEFT_ON and cadence.act==False and cadence.rhythm>=300:
+            cadence.x -= 24
+            cadence.act = True
+        elif event==DOWN_ON and cadence.act==False and cadence.rhythm>=300:
+            cadence.y -= 24
+            cadence.act = True
+        elif event==UP_ON and cadence.act==False and cadence.rhythm>=300:
+            cadence.y += 24
+            cadence.act = True
+
 
 
 
@@ -57,57 +70,17 @@ class IdleState:
 
     @staticmethod
     def draw(cadence):
-        cadence.image.clip_draw(int(cadence.frame) * 24, 24, 24, 24, cadence.x, cadence.y)
+        if cadence.dir==1:
+            cadence.image.clip_composite_draw(int(cadence.frame) * 24, 24, 24, 24,0,' ' ,cadence.x, cadence.y,24,24)
+        else:
+            cadence.image.clip_composite_draw(int(cadence.frame) * 24, 24, 24, 24, 0, 'h', cadence.x, cadence.y, 24, 24)
 
-class RunState:
-    @staticmethod
-    def enter(cadence,event):
-        if event==RIGHT_ON:
-            cadence.vertical+=1
-        elif event==LEFT_ON:
-            cadence.vertical-=1
-        elif event==UP_ON:
-            cadence.horizon+=1
-        elif event==DOWN_ON:
-            cadence.horizon-=1
-        elif event==RIGHT_OFF:
-            cadence.vertical-=1
-        elif event==LEFT_OFF:
-            cadence.vertical+=1
-        elif event == UP_OFF:
-            cadence.horizon -= 1
-        elif event == DOWN_OFF:
-            cadence.horizon += 1
-
-    @staticmethod
-    def exit(cadence,event):
-        pass
-
-    @staticmethod
-    def do(cadence):
-        cadence.frame = (cadence.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
-        if cadence.act==False:
-            cadence.x += cadence.vertical * 24
-            cadence.y += cadence.horizon * 24
-            cadence.act=True
-        cadence.rhythm += 400 * 115 / 60 * game_framework.frame_time
-        if cadence.rhythm >= 400:
-            cadence.act = False
-            cadence.rhythm = 0
-
-
-
-
-    @staticmethod
-    def draw(cadence):
-        cadence.image.clip_draw(int(cadence.frame) * 24, 24, 24, 24, cadence.x, cadence.y)
 
 
 next_state_table={
-    IdleState:{RIGHT_ON:RunState,LEFT_ON:RunState,UP_ON:RunState,DOWN_ON:RunState,
-               RIGHT_OFF:IdleState, LEFT_OFF:IdleState, UP_OFF:IdleState,DOWN_OFF:IdleState},
-    RunState:{RIGHT_ON:RunState,LEFT_ON:RunState,UP_ON:RunState,DOWN_ON:RunState,
+    IdleState:{RIGHT_ON:IdleState,LEFT_ON:IdleState,UP_ON:IdleState,DOWN_ON:IdleState,
                RIGHT_OFF:IdleState, LEFT_OFF:IdleState, UP_OFF:IdleState,DOWN_OFF:IdleState}
+
 }
 
 
@@ -115,12 +88,11 @@ class Cadence:
     def __init__(self):
         self.x, self.y = 104+24, 500-24
         self.frame = 0
-        self.vertical=0
-        self.horizon=0
         self.image = load_image('clone.png')
         self.attack_sound=load_wav('attack.wav')
         self.rhythm=0
         self.act=True
+        self.dir=1
         self.event_que=[]
         self.cur_state=IdleState
         self.cur_state.enter(self,None)
@@ -136,8 +108,9 @@ class Cadence:
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
 
-    def tmp(self):
-        print("HELLO")
+    def attack(self):
+        self.attack_sound.set_volume(500)
+        self.attack_sound.play()
 
     def draw(self):
         self.cur_state.draw(self)
@@ -146,5 +119,4 @@ class Cadence:
         if (event.type, event.key) in key_event_table:
             key_event = key_event_table[(event.type, event.key)]
             self.add_event(key_event)
-
 
