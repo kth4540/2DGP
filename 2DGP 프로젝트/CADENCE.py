@@ -107,6 +107,12 @@ class IdleState:
     @staticmethod
     def do(cadence):
         cadence.frame = (cadence.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+        if cadence.attack_check==True:
+            cadence.attack_frame=(cadence.attack_frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+        if(cadence.attack_frame>3):
+            cadence.attack_frame=0
+            cadence.attack_check=False
+
         cadence.rhythm+=400*115/60*game_framework.frame_time
         if cadence.rhythm>=400:
             cadence.act=False
@@ -116,8 +122,14 @@ class IdleState:
     def draw(cadence):
         if cadence.dir==1:
             cadence.image.clip_composite_draw(int(cadence.frame) * 24, 24, 24, 24,0,' ' ,cadence.x, cadence.y,24,24)
+            if(cadence.attack_check==True):
+                cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, 0, ' ', cadence.x+12, cadence.y, 24, 24)
+
         else:
             cadence.image.clip_composite_draw(int(cadence.frame) * 24, 24, 24, 24, 0, 'h', cadence.x, cadence.y, 24, 24)
+            if (cadence.attack_check == True):
+                cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, 0, 'h', cadence.x-12,cadence.y, 24, 24)
+
 
 
 
@@ -131,9 +143,13 @@ next_state_table={
 class Cadence:
     def __init__(self):
         self.x, self.y = 104+24, 500-24
+        self.moving_x,self.moving_y=104+24,500-24
         self.frame = 0
+        self.attack_frame=0
+        self.attack_check=False
         self.image = load_image('clone.png')
         self.attack_sound=load_wav('attack.wav')
+        self.attack_effect=load_image('attack_effect.png')
         self.rhythm=0
         self.act=True
         self.dir=1
@@ -155,6 +171,7 @@ class Cadence:
     def attack(self):
         self.attack_sound.set_volume(500)
         self.attack_sound.play()
+        self.attack_check=True
 
 
     def draw(self):
