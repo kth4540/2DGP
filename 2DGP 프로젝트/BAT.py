@@ -56,5 +56,8 @@ class Bat:
             self.move=0
 
     def draw(self):
-        if(self.life!=0):
-            self.image.clip_draw(int(self.frame) * 24, 24, 24, 28, self.x, self.y)
+        if(self.life>0):
+            if(main_state.cadence.x>=self.x):
+                self.image.clip_draw(int(self.frame) * 24, 24, 24, 28, self.x, self.y)
+            elif(main_state.cadence.x<self.x):
+                self.image.clip_composite_draw(int(self.frame)*24,24,24,28,0,'h',self.x,self.y,24,28)
