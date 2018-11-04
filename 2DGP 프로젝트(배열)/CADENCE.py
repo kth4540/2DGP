@@ -64,7 +64,7 @@ class IdleState:
                     cadence.attack_dir = 0
                     cadence.attack()
                     cadence.move_check=True
-            if cadence.move_check==False:
+            if cadence.move_check==False and cadence.x+24<80+(24*25):
                 cadence.x+=24
             cadence.act = True
 
@@ -87,7 +87,7 @@ class IdleState:
                     cadence.attack_dir = 1
                     cadence.attack()
                     cadence.move_check=True
-            if cadence.move_check==False:
+            if cadence.move_check==False and cadence.x-24>104:
                 cadence.x-=24
             cadence.act = True
 
@@ -110,7 +110,7 @@ class IdleState:
                     cadence.attack_dir = 2
                     cadence.attack()
                     cadence.move_check = True
-            if cadence.move_check==False:
+            if cadence.move_check==False and cadence.y-24>510-(24*16):
                 cadence.y-=24
             cadence.act = True
 
@@ -133,7 +133,7 @@ class IdleState:
                     cadence.attack_dir = 3
                     cadence.attack()
                     cadence.move_check = True
-            if cadence.move_check==False:
+            if cadence.move_check==False and cadence.y+24<510-24:
                 cadence.y+=24
             cadence.act = True
 
