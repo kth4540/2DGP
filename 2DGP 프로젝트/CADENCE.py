@@ -1,5 +1,6 @@
 from pico2d import*
 import game_framework
+import math
 
 import main_state
 # 프레임
@@ -49,11 +50,13 @@ class IdleState:
                 main_state.bat.life -= 1
                 main_state.bat.x = None
                 main_state.bat.y = None
+                cadence.attack_dir=0
                 cadence.attack()
             elif(cadence.x + 24 == main_state.skeleton.x and cadence.y == main_state.skeleton.y):
                 main_state.skeleton.life -= 1
                 main_state.skeleton.x = None
                 main_state.skeleton.y = None
+                cadence.attack_dir = 0
                 cadence.attack()
             else:
                 cadence.x+=24
@@ -63,11 +66,13 @@ class IdleState:
                 main_state.bat.life -= 1
                 main_state.bat.x=None
                 main_state.bat.y=None
+                cadence.attack_dir = 1
                 cadence.attack()
             elif (cadence.x - 24 == main_state.skeleton.x and cadence.y == main_state.skeleton.y):
                 main_state.skeleton.life -= 1
                 main_state.skeleton.x = None
                 main_state.skeleton.y = None
+                cadence.attack_dir = 1
                 cadence.attack()
             else:
                 cadence.x -= 24
@@ -77,11 +82,13 @@ class IdleState:
                 main_state.bat.life -= 1
                 main_state.bat.x = None
                 main_state.bat.y = None
+                cadence.attack_dir = 2
                 cadence.attack()
             elif (cadence.y - 24 == main_state.skeleton.y and cadence.x == main_state.skeleton.x):
                 main_state.skeleton.life -= 1
                 main_state.skeleton.x = None
                 main_state.skeleton.y = None
+                cadence.attack_dir = 2
                 cadence.attack()
             else:
                 cadence.y -= 24
@@ -91,11 +98,13 @@ class IdleState:
                 main_state.bat.life -= 1
                 main_state.bat.x = None
                 main_state.bat.y = None
+                cadence.attack_dir = 3
                 cadence.attack()
             elif (cadence.y + 24 == main_state.skeleton.y and cadence.x == main_state.skeleton.x):
                 main_state.skeleton.life -= 1
                 main_state.skeleton.x = None
                 main_state.skeleton.y = None
+                cadence.attack_dir = 3
                 cadence.attack()
             else:
                 cadence.y += 24
@@ -122,16 +131,18 @@ class IdleState:
     def draw(cadence):
         if cadence.dir==1:
             cadence.image.clip_composite_draw(int(cadence.frame) * 24, 24, 24, 24,0,' ' ,cadence.x, cadence.y,24,24)
-            if(cadence.attack_check==True):
-                cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, 0, ' ', cadence.x+12, cadence.y, 24, 24)
 
         else:
             cadence.image.clip_composite_draw(int(cadence.frame) * 24, 24, 24, 24, 0, 'h', cadence.x, cadence.y, 24, 24)
-            if (cadence.attack_check == True):
-                cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, 0, 'h', cadence.x-12,cadence.y, 24, 24)
 
-
-
+        if (cadence.attack_check == True and cadence.attack_dir == 0):
+            cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, 0, ' ', cadence.x + 12,cadence.y, 24, 24)
+        elif (cadence.attack_check == True and cadence.attack_dir==1):
+            cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, 0, 'h', cadence.x - 12,cadence.y, 24, 24)
+        elif (cadence.attack_check == True and cadence.attack_dir == 2):
+            cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, math.radians(-90), '', cadence.x,cadence.y-12, 24, 24)
+        elif (cadence.attack_check == True and cadence.attack_dir == 3):
+            cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, math.radians(90), '', cadence.x,cadence.y+12, 24, 24)
 
 next_state_table={
     IdleState:{RIGHT_ON:IdleState,LEFT_ON:IdleState,UP_ON:IdleState,DOWN_ON:IdleState,
@@ -153,6 +164,7 @@ class Cadence:
         self.rhythm=0
         self.act=True
         self.dir=1
+        self.attack_dir=0
         self.event_que=[]
         self.cur_state=IdleState
         self.cur_state.enter(self,None)
