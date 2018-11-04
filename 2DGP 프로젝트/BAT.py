@@ -23,6 +23,7 @@ class Bat:
                 if(self.x-main_state.cadence.x>0):
                     if(self.x-24==main_state.cadence.x and self.y==main_state.cadence.y): # 캐릭터와 충돌
                         pass
+
                     elif(self.x - 24 == main_state.skeleton.x and self.y == main_state.skeleton.y): # skeletion과 충돌
                         pass
                     else:

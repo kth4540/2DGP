@@ -16,9 +16,9 @@ name = "MainState"
 map=None
 heart=None
 stick=None
-skeleton=None
+skeleton=[]
 cadence = None
-bat=None
+bat=[]
 
 
 def enter():
@@ -27,8 +27,10 @@ def enter():
     heart=Heart()
     stick=Stick()
     map=Map()
-    skeleton=Skeleton()
-    bat=Bat()
+    skeleton.append(Skeleton())
+    bat.append(Bat())
+    skeleton.append(Skeleton())
+    bat.append(Bat())
 
 def exit():
     global cadence,heart,stick,skeleton,bat,map
@@ -64,10 +66,12 @@ def update():
     heart.update()
     stick.update()
     cadence.update()
-    if(skeleton.life>0):
-        skeleton.update()
-    if(bat.life>0):
-        bat.update()
+    for i in range(2):
+        if(skeleton[i].life>0):
+            skeleton[i].update()
+    for i in range(2):
+        if(bat[i].life>0):
+            bat[i].update()
 
 def draw():
     clear_canvas()
@@ -75,6 +79,8 @@ def draw():
     cadence.draw()
     heart.draw()
     stick.draw()
-    skeleton.draw()
-    bat.draw()
+    for i in range(2):
+        skeleton[i].draw()
+    for i in range(2):
+        bat[i].draw()
     update_canvas()
