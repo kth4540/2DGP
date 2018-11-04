@@ -14,7 +14,7 @@ class Skeleton:
         self.move_check=False
         self.image=load_image('skeleton.png')
         self.move=0
-        self.life=1
+        self.life=2
 
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4

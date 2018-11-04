@@ -49,16 +49,18 @@ class IdleState:
             for i in range(2):
                 if (cadence.x + 24 == main_state.bat[i].x and cadence.y == main_state.bat[i].y):
                     main_state.bat[i].life -= 1
-                    main_state.bat[i].x = None
-                    main_state.bat[i].y = None
+                    if(main_state.bat[i].life==0):
+                        main_state.bat[i].x = None
+                        main_state.bat[i].y = None
                     cadence.attack_dir=0
                     cadence.attack()
                     cadence.move_check=True
             for i in range(2):
                 if(cadence.x + 24 == main_state.skeleton[i].x and cadence.y == main_state.skeleton[i].y):
                     main_state.skeleton[i].life -= 1
-                    main_state.skeleton[i].x = None
-                    main_state.skeleton[i].y = None
+                    if (main_state.skeleton[i].life == 0):
+                        main_state.skeleton[i].x = None
+                        main_state.skeleton[i].y = None
                     cadence.attack_dir = 0
                     cadence.attack()
                     cadence.move_check=True
@@ -70,16 +72,18 @@ class IdleState:
             for i in range(2):
                 if (cadence.x - 24 == main_state.bat[i].x and cadence.y == main_state.bat[i].y):
                     main_state.bat[i].life -= 1
-                    main_state.bat[i].x = None
-                    main_state.bat[i].y = None
+                    if (main_state.bat[i].life == 0):
+                        main_state.bat[i].x = None
+                        main_state.bat[i].y = None
                     cadence.attack_dir=1
                     cadence.attack()
                     cadence.move_check=True
             for i in range(2):
                 if(cadence.x - 24 == main_state.skeleton[i].x and cadence.y == main_state.skeleton[i].y):
                     main_state.skeleton[i].life -= 1
-                    main_state.skeleton[i].x = None
-                    main_state.skeleton[i].y = None
+                    if (main_state.skeleton[i].life == 0):
+                        main_state.skeleton[i].x = None
+                        main_state.skeleton[i].y = None
                     cadence.attack_dir = 1
                     cadence.attack()
                     cadence.move_check=True
@@ -91,16 +95,18 @@ class IdleState:
             for i in range(2):
                 if (cadence.y - 24 == main_state.bat[i].y and cadence.x == main_state.bat[i].x):
                     main_state.bat[i].life -= 1
-                    main_state.bat[i].x = None
-                    main_state.bat[i].y = None
+                    if (main_state.bat[i].life == 0):
+                        main_state.bat[i].x = None
+                        main_state.bat[i].y = None
                     cadence.attack_dir = 2
                     cadence.attack()
                     cadence.move_check = True
             for i in range(2):
                 if (cadence.y - 24 == main_state.skeleton[i].y and cadence.x == main_state.skeleton[i].x):
                     main_state.skeleton[i].life -= 1
-                    main_state.skeleton[i].x = None
-                    main_state.skeleton[i].y = None
+                    if(main_state.skeleton[i].life==0):
+                        main_state.skeleton[i].x = None
+                        main_state.skeleton[i].y = None
                     cadence.attack_dir = 2
                     cadence.attack()
                     cadence.move_check = True
@@ -112,16 +118,18 @@ class IdleState:
             for i in range(2):
                 if (cadence.y + 24 == main_state.bat[i].y and cadence.x == main_state.bat[i].x):
                     main_state.bat[i].life -= 1
-                    main_state.bat[i].x = None
-                    main_state.bat[i].y = None
+                    if (main_state.bat[i].life == 0):
+                        main_state.bat[i].x = None
+                        main_state.bat[i].y = None
                     cadence.attack_dir = 3
                     cadence.attack()
                     cadence.move_check = True
             for i in range(2):
                 if (cadence.y + 24 == main_state.skeleton[i].y and cadence.x == main_state.skeleton[i].x):
                     main_state.skeleton[i].life -= 1
-                    main_state.skeleton[i].x = None
-                    main_state.skeleton[i].y = None
+                    if (main_state.skeleton[i].life == 0):
+                        main_state.skeleton[i].x = None
+                        main_state.skeleton[i].y = None
                     cadence.attack_dir = 3
                     cadence.attack()
                     cadence.move_check = True
