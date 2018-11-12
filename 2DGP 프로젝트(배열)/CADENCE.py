@@ -46,7 +46,7 @@ class IdleState:
     @staticmethod
     def exit(cadence,event):
         if event==RIGHT_ON and cadence.act==False and cadence.rhythm>=300:
-            for i in range(2):
+            for i in range(main_state.bat_num):
                 if (cadence.x + 24 == main_state.bat[i].x and cadence.y == main_state.bat[i].y):
                     main_state.bat[i].life -= 1
                     if(main_state.bat[i].life==0):
@@ -55,7 +55,7 @@ class IdleState:
                     cadence.attack_dir=0
                     cadence.attack()
                     cadence.move_check=True
-            for i in range(2):
+            for i in range(main_state.skel_num):
                 if(cadence.x + 24 == main_state.skeleton[i].x and cadence.y == main_state.skeleton[i].y):
                     main_state.skeleton[i].life -= 1
                     if (main_state.skeleton[i].life == 0):
@@ -69,7 +69,7 @@ class IdleState:
             cadence.act = True
 
         elif event==LEFT_ON and cadence.act==False and cadence.rhythm>=300:
-            for i in range(2):
+            for i in range(main_state.bat_num):
                 if (cadence.x - 24 == main_state.bat[i].x and cadence.y == main_state.bat[i].y):
                     main_state.bat[i].life -= 1
                     if (main_state.bat[i].life == 0):
@@ -78,7 +78,7 @@ class IdleState:
                     cadence.attack_dir=1
                     cadence.attack()
                     cadence.move_check=True
-            for i in range(2):
+            for i in range(main_state.skel_num):
                 if(cadence.x - 24 == main_state.skeleton[i].x and cadence.y == main_state.skeleton[i].y):
                     main_state.skeleton[i].life -= 1
                     if (main_state.skeleton[i].life == 0):
@@ -92,7 +92,7 @@ class IdleState:
             cadence.act = True
 
         elif event==DOWN_ON and cadence.act==False and cadence.rhythm>=300:
-            for i in range(2):
+            for i in range(main_state.bat_num):
                 if (cadence.y - 24 == main_state.bat[i].y and cadence.x == main_state.bat[i].x):
                     main_state.bat[i].life -= 1
                     if (main_state.bat[i].life == 0):
@@ -101,7 +101,7 @@ class IdleState:
                     cadence.attack_dir = 2
                     cadence.attack()
                     cadence.move_check = True
-            for i in range(2):
+            for i in range(main_state.skel_num):
                 if (cadence.y - 24 == main_state.skeleton[i].y and cadence.x == main_state.skeleton[i].x):
                     main_state.skeleton[i].life -= 1
                     if(main_state.skeleton[i].life==0):
@@ -115,7 +115,7 @@ class IdleState:
             cadence.act = True
 
         elif event==UP_ON and cadence.act==False and cadence.rhythm>=300:
-            for i in range(2):
+            for i in range(main_state.bat_num):
                 if (cadence.y + 24 == main_state.bat[i].y and cadence.x == main_state.bat[i].x):
                     main_state.bat[i].life -= 1
                     if (main_state.bat[i].life == 0):
@@ -124,7 +124,7 @@ class IdleState:
                     cadence.attack_dir = 3
                     cadence.attack()
                     cadence.move_check = True
-            for i in range(2):
+            for i in range(main_state.skel_num):
                 if (cadence.y + 24 == main_state.skeleton[i].y and cadence.x == main_state.skeleton[i].x):
                     main_state.skeleton[i].life -= 1
                     if (main_state.skeleton[i].life == 0):

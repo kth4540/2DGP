@@ -17,8 +17,10 @@ map=None
 heart=None
 stick=None
 skeleton=[]
+skel_num=2
 cadence = None
 bat=[]
+bat_num=2
 
 
 def enter():
@@ -63,13 +65,14 @@ def handle_events():
 
 
 def update():
+    global skel_respawn,skel_respawn_time
     heart.update()
     stick.update()
     cadence.update()
-    for i in range(2):
+    for i in range(skel_num):
         if(skeleton[i].life>0):
             skeleton[i].update()
-    for i in range(2):
+    for i in range(bat_num):
         if(bat[i].life>0):
             bat[i].update()
 
@@ -79,8 +82,8 @@ def draw():
     cadence.draw()
     heart.draw()
     stick.draw()
-    for i in range(2):
+    for i in range(skel_num):
         skeleton[i].draw()
-    for i in range(2):
+    for i in range(bat_num):
         bat[i].draw()
     update_canvas()
