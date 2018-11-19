@@ -16,11 +16,16 @@ name = "MainState"
 map=None
 heart=None
 stick=None
+
 skeleton=[]
 skel_num=2
-cadence = None
+
+
 bat=[]
 bat_num=2
+
+cadence = None
+
 
 
 def enter():
@@ -75,6 +80,7 @@ def update():
     for i in range(bat_num):
         if(bat[i].life>0):
             bat[i].update()
+
 
 def draw():
     clear_canvas()
