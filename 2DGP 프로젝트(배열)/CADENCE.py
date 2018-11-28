@@ -10,7 +10,7 @@ FRAMES_PER_ACTION = 8
 
 #cadence event
 
-RIGHT_ON, LEFT_ON, UP_ON, DOWN_ON,RIGHT_OFF,LEFT_OFF,UP_OFF,DOWN_OFF = range(8)
+RIGHT_ON, LEFT_ON, UP_ON, DOWN_ON,RIGHT_OFF,LEFT_OFF,UP_OFF,DOWN_OFF,SPACE = range(9)
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_ON,
@@ -20,7 +20,8 @@ key_event_table = {
     (SDL_KEYUP, SDLK_RIGHT): RIGHT_OFF,
     (SDL_KEYUP, SDLK_LEFT): LEFT_OFF,
     (SDL_KEYUP, SDLK_UP): UP_OFF,
-    (SDL_KEYUP, SDLK_DOWN): DOWN_OFF
+    (SDL_KEYUP, SDLK_DOWN): DOWN_OFF,
+    (SDL_KEYDOWN,SDLK_SPACE):SPACE
 }
 
 class IdleState:
@@ -42,19 +43,41 @@ class IdleState:
             pass
         elif event == DOWN_OFF:
             pass
+        elif event==SPACE:
+            pass
 
     @staticmethod
     def exit(cadence,event):
         if event==RIGHT_ON and cadence.act==False and cadence.rhythm>=300:
             for i in range(main_state.bat_num):
-                if (cadence.x + 24 == main_state.bat[i].x and cadence.y == main_state.bat[i].y):
-                    main_state.bat[i].life -= 1
-                    if(main_state.bat[i].life==0):
-                        main_state.bat[i].x = None
-                        main_state.bat[i].y = None
-                    cadence.attack_dir=0
-                    cadence.attack()
-                    cadence.move_check=True
+                if(cadence.weapon==0):
+                    if (cadence.x + 24 == main_state.bat[i].x and cadence.y == main_state.bat[i].y):
+                        main_state.bat[i].life -= 1
+                        if(main_state.bat[i].life==0):
+                            main_state.bat[i].x = None
+                            main_state.bat[i].y = None
+                        cadence.attack_dir=0
+                        cadence.attack()
+                        cadence.move_check=True
+                elif(cadence.weapon==1):
+                    if(cadence.x+24==main_state.bat[i].x and cadence.y>=main_state.bat[i].y-24 and main_state.bat[i].y+24):
+                        main_state.bat[i].life -= 1
+                        if (main_state.bat[i].life == 0):
+                            main_state.bat[i].x = None
+                            main_state.bat[i].y = None
+                        cadence.attack_dir = 0
+                        cadence.attack()
+                        cadence.move_check = True
+                elif(cadence.weapon==2):
+                    if(cadence.x+24==main_state.bat[i].x or cadence.x+48==main_state.bat[i].x):
+                        if(cadence.y==main_state.bat[i].y):
+                            main_state.bat[i].life -= 1
+                            if (main_state.bat[i].life == 0):
+                                main_state.bat[i].x = None
+                                main_state.bat[i].y = None
+                            cadence.attack_dir = 0
+                            cadence.attack()
+                            cadence.move_check = True
             for i in range(main_state.skel_num):
                 if(cadence.x + 24 == main_state.skeleton[i].x and cadence.y == main_state.skeleton[i].y):
                     main_state.skeleton[i].life -= 1
@@ -173,16 +196,33 @@ class IdleState:
                 cadence.y+=24
             cadence.act = True
 
-
+        elif event == SPACE and cadence.act == False and cadence.rhythm >= 300:
+            cadence.Bomb()
 
 
     @staticmethod
     def do(cadence):
         cadence.frame = (cadence.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+        if cadence.bomb_check==True:
+            cadence.bomb_frame=(cadence.bomb_frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 6
+        if cadence.bomb_frame>5:
+            cadence.bomb_frame=0
+            cadence.bomb_check=False
         if cadence.attack_check==True:
-            cadence.attack_frame=(cadence.attack_frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+            if(cadence.weapon==0):
+                cadence.attack_frame=(cadence.attack_frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+            elif(cadence.weapon==1):
+                cadence.sword_frame=(cadence.sword_frame+FRAMES_PER_ACTION*ACTION_PER_TIME*game_framework.frame_time)%4
+            elif(cadence.weapon==2):
+                cadence.rapier_frame=(cadence.rapier_frame+FRAMES_PER_ACTION*ACTION_PER_TIME*game_framework.frame_time)%4
         if(cadence.attack_frame>3):
             cadence.attack_frame=0
+            cadence.attack_check=False
+        if(cadence.sword_frame>3):
+            cadence.sword_frame=0
+            cadence.attack_check=False
+        if(cadence.rapier_frame>3):
+            cadence.rapier_frame=0
             cadence.attack_check=False
 
         cadence.rhythm+=400*115/60*game_framework.frame_time
@@ -200,17 +240,29 @@ class IdleState:
             cadence.image.clip_composite_draw(int(cadence.frame) * 24, 24, 24, 24, 0, 'h', cadence.x, cadence.y, 24, 24)
 
         if (cadence.attack_check == True and cadence.attack_dir == 0):
-            cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, 0, ' ', cadence.x + 12,cadence.y, 24, 24)
+            if(cadence.weapon==0):
+                cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, 0, ' ', cadence.x + 24,cadence.y, 24, 24)
+            elif(cadence.weapon==1):
+                cadence.sword_effect.clip_composite_draw(int(cadence.sword_frame)*24,0,24,72,0,' ',cadence.x+24,cadence.y,24,72)
+            elif(cadence.weapon==2):
+                cadence.rapier_effect.clip_composite_draw(int(cadence.rapier_frame)*48,0,48,24,0,' ',cadence.x+24,cadence.y,48,24)
+
         elif (cadence.attack_check == True and cadence.attack_dir==1):
-            cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, 0, 'h', cadence.x - 12,cadence.y, 24, 24)
+            cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, 0, 'h', cadence.x - 24,cadence.y, 24, 24)
         elif (cadence.attack_check == True and cadence.attack_dir == 2):
-            cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, math.radians(-90), '', cadence.x,cadence.y-12, 24, 24)
+            cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, math.radians(-90), '', cadence.x,cadence.y-24, 24, 24)
         elif (cadence.attack_check == True and cadence.attack_dir == 3):
-            cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, math.radians(90), '', cadence.x,cadence.y+12, 24, 24)
+            cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, math.radians(90), '', cadence.x,cadence.y+24, 24, 24)
+
+        if(cadence.bomb_check==True):
+            for i in range (3):
+                cadence.bomb.clip_composite_draw(int(cadence.bomb_frame+3)*74,0,74,74,0,' ',cadence.x+(24*(i-1)),cadence.y+24,24,24)
+                cadence.bomb.clip_composite_draw(int(cadence.bomb_frame + 3) * 74, 0, 74, 74, 0, ' ',cadence.x + (24 * (i - 1)), cadence.y, 24, 24)
+                cadence.bomb.clip_composite_draw(int(cadence.bomb_frame + 3) * 74, 0, 74, 74, 0, ' ',cadence.x + (24 * (i - 1)), cadence.y -24, 24, 24)
 
 next_state_table={
     IdleState:{RIGHT_ON:IdleState,LEFT_ON:IdleState,UP_ON:IdleState,DOWN_ON:IdleState,
-               RIGHT_OFF:IdleState, LEFT_OFF:IdleState, UP_OFF:IdleState,DOWN_OFF:IdleState}
+               RIGHT_OFF:IdleState, LEFT_OFF:IdleState, UP_OFF:IdleState,DOWN_OFF:IdleState, SPACE:IdleState}
 
 }
 
@@ -221,14 +273,22 @@ class Cadence:
         self.move_check=False
         self.frame = 0
         self.attack_frame=0
+        self.sword_frame=0
+        self.rapier_frame=0
         self.attack_check=False
+        self.weapon=2
         self.image = load_image('clone.png')
+        self.bomb=load_image('bomb.png')
         self.attack_sound=load_wav('attack.wav')
         self.attack_effect=load_image('attack_effect.png')
+        self.sword_effect=load_image('attack_sword.png')
+        self.rapier_effect=load_image('attack_rapier.png')
         self.rhythm=0
         self.act=True
         self.dir=1
         self.attack_dir=0
+        self.bomb_check=False
+        self.bomb_frame=0
         self.event_que=[]
         self.cur_state=IdleState
         self.cur_state.enter(self,None)
@@ -249,6 +309,8 @@ class Cadence:
         self.attack_sound.play()
         self.attack_check=True
 
+    def Bomb(self):
+        self.bomb_check=True
 
     def draw(self):
         self.cur_state.draw(self)
