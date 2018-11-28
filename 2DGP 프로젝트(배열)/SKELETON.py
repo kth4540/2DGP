@@ -41,6 +41,10 @@ class Skeleton:
                     for i in range(main_state.skel_num):
                         if(self.x-24==main_state.skeleton[i].x and self.y==main_state.skeleton[i].y):
                             self.move_check=True
+                    for i in range(main_state.dragon_num):
+                        if(self.x-24==main_state.dragon[i].x and self.y==main_state.dragon[i].y):
+                            self.move_check=True
+
                     if self.move_check==False:
                         self.x-=24
 
@@ -54,6 +58,9 @@ class Skeleton:
                     for i in range(main_state.skel_num):
                         if (self.x + 24 == main_state.skeleton[i].x and self.y == main_state.skeleton[i].y):
                             self.move_check = True
+                    for i in range(main_state.dragon_num):
+                        if(self.x+24==main_state.dragon[i].x and self.y==main_state.dragon[i].y):
+                            self.move_check=True
                     if self.move_check == False:
                         self.x += 24
 
@@ -68,6 +75,9 @@ class Skeleton:
                     for i in range(main_state.skel_num):
                         if(self.x==main_state.skeleton[i].x and self.y-24==main_state.skeleton[i].y):
                             self.move_check=True
+                    for i in range(main_state.dragon_num):
+                        if (self.x == main_state.dragon[i].x and self.y - 24 == main_state.dragon[i].y):
+                            self.move_check = True
                     if self.move_check==False:
                         self.y-=24
 
@@ -81,6 +91,9 @@ class Skeleton:
                     for i in range(main_state.skel_num):
                         if(self.x==main_state.skeleton[i].x and self.y+24==main_state.skeleton[i].y):
                             self.move_check=True
+                    for i in range(main_state.dragon_num):
+                        if (self.x == main_state.dragon[i].x and self.y + 24 == main_state.dragon[i].y):
+                            self.move_check = True
                     if self.move_check==False:
                         self.y+=24
             self.move=0

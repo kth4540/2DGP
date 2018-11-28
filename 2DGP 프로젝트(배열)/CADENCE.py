@@ -64,6 +64,15 @@ class IdleState:
                     cadence.attack_dir = 0
                     cadence.attack()
                     cadence.move_check=True
+            for i in range(main_state.dragon_num):
+                if(cadence.x + 24 == main_state.dragon[i].x and cadence.y == main_state.dragon[i].y):
+                    main_state.dragon[i].life -= 1
+                    if (main_state.dragon[i].life == 0):
+                        main_state.dragon[i].x = None
+                        main_state.dragon[i].y = None
+                    cadence.attack_dir = 0
+                    cadence.attack()
+                    cadence.move_check=True
             if cadence.move_check==False and cadence.x+24<80+(24*25):
                 cadence.x+=24
             cadence.act = True
@@ -87,6 +96,15 @@ class IdleState:
                     cadence.attack_dir = 1
                     cadence.attack()
                     cadence.move_check=True
+            for i in range(main_state.dragon_num):
+                if (cadence.x - 24 == main_state.dragon[i].x and cadence.y == main_state.dragon[i].y):
+                    main_state.dragon[i].life -= 1
+                    if (main_state.dragon[i].life == 0):
+                        main_state.dragon[i].x = None
+                        main_state.dragon[i].y = None
+                    cadence.attack_dir = 1
+                    cadence.attack()
+                    cadence.move_check = True
             if cadence.move_check==False and cadence.x-24>104:
                 cadence.x-=24
             cadence.act = True
@@ -110,6 +128,15 @@ class IdleState:
                     cadence.attack_dir = 2
                     cadence.attack()
                     cadence.move_check = True
+            for i in range(main_state.dragon_num):
+                if (cadence.y - 24 == main_state.dragon[i].y and cadence.x == main_state.dragon[i].x):
+                    main_state.dragon[i].life -= 1
+                    if (main_state.dragon[i].life == 0):
+                        main_state.dragon[i].x = None
+                        main_state.dragon[i].y = None
+                    cadence.attack_dir = 2
+                    cadence.attack()
+                    cadence.move_check = True
             if cadence.move_check==False and cadence.y-24>510-(24*16):
                 cadence.y-=24
             cadence.act = True
@@ -130,6 +157,15 @@ class IdleState:
                     if (main_state.skeleton[i].life == 0):
                         main_state.skeleton[i].x = None
                         main_state.skeleton[i].y = None
+                    cadence.attack_dir = 3
+                    cadence.attack()
+                    cadence.move_check = True
+            for i in range(main_state.dragon_num):
+                if (cadence.y + 24 == main_state.dragon[i].y and cadence.x == main_state.dragon[i].x):
+                    main_state.dragon[i].life -= 1
+                    if (main_state.dragon[i].life == 0):
+                        main_state.dragon[i].x = None
+                        main_state.dragon[i].y = None
                     cadence.attack_dir = 3
                     cadence.attack()
                     cadence.move_check = True

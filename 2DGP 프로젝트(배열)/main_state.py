@@ -9,6 +9,7 @@ from STICK import Stick
 from CADENCE import Cadence
 from SKELETON import Skeleton
 from BAT import Bat
+from DRAGON import Dragon
 
 
 name = "MainState"
@@ -24,12 +25,15 @@ skel_num=2
 bat=[]
 bat_num=2
 
+dragon=[]
+dragon_num=1
+
 cadence = None
 
 
 
 def enter():
-    global cadence,heart,stick,skeleton,bat,map
+    global cadence,heart,stick,skeleton,bat,dragon,map
     cadence=Cadence()
     heart=Heart()
     stick=Stick()
@@ -38,14 +42,16 @@ def enter():
     bat.append(Bat())
     skeleton.append(Skeleton())
     bat.append(Bat())
+    dragon.append(Dragon())
 
 def exit():
-    global cadence,heart,stick,skeleton,bat,map
+    global cadence,heart,stick,skeleton,bat,dragon,map
     del(cadence)
     del(heart)
     del(stick)
     del(skeleton)
     del(bat)
+    del(dragon)
     del(map)
 
 
@@ -80,6 +86,9 @@ def update():
     for i in range(bat_num):
         if(bat[i].life>0):
             bat[i].update()
+    for i in range(dragon_num):
+        if (dragon[i].life > 0):
+            dragon[i].update()
 
 
 def draw():
@@ -92,4 +101,6 @@ def draw():
         skeleton[i].draw()
     for i in range(bat_num):
         bat[i].draw()
+    for i in range(dragon_num):
+        dragon[i].draw()
     update_canvas()
