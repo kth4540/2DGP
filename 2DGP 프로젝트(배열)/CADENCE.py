@@ -777,7 +777,7 @@ class Cadence:
         self.attack_effect=load_image('attack_effect.png')
         self.sword_effect=load_image('attack_sword.png')
         self.rapier_effect=load_image('attack_rapier.png')
-
+        self.explode=load_wav('explode.wav')
         self.rhythm=0
         self.act=False
         self.dir=1
@@ -826,6 +826,7 @@ class Cadence:
                 main_state.dragon[i].life = 0
                 main_state.dragon[i].x = -100
                 main_state.dragon[i].y = -100
+        self.explode.play()
 
         self.life-=1
 

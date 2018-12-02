@@ -1,6 +1,5 @@
 import game_framework
 import pico2d
-import main_state
 import title_state
 
 # fill here

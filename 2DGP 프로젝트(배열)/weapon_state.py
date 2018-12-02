@@ -9,12 +9,12 @@ name = "MainState"
 knife=None
 sword=None
 rapier=None
-
+sound=None
 
 
 
 def enter():
-    global knife,sword,rapier,choose,sound
+    global knife,sword,rapier,sound
     knife = load_image('knife.png')
     sword = load_image('sword.png')
     rapier = load_image('rapier.png')
@@ -24,10 +24,11 @@ def enter():
 
 
 def exit():
-    global knife, sword, rapier
-    del(knife)
+    global knife, sword, rapier,sound
     del(sword)
     del(rapier)
+    del(knife)
+    del(sound)
 
 
 
@@ -48,13 +49,19 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
         elif event.type==SDL_KEYDOWN and event.key==SDLK_1:
+            main_state.cadence_weapon = 0
             game_framework.change_state(main_state)
+
 
         elif event.type==SDL_KEYDOWN and event.key==SDLK_2:
+            main_state.cadence_weapon = 1
             game_framework.change_state(main_state)
 
+
         elif event.type==SDL_KEYDOWN and event.key==SDLK_3:
+            main_state.cadence_weapon = 2
             game_framework.change_state(main_state)
+
 
 def update():
    pass

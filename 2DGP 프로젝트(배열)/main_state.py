@@ -1,7 +1,7 @@
 from pico2d import *
 
 import game_framework
-import title_state
+import restart_state
 
 from MAP import Map
 from HEART import Heart
@@ -37,12 +37,10 @@ dragon_num=1
 
 cadence_weapon=0
 
-
-
-
+choose_sound=None
 
 def enter():
-    global cadence,heart,stick,skeleton,bat,dragon,map
+    global cadence,heart,stick,skeleton,bat,dragon,map,choose_sound
     cadence=Cadence()
     cadence.weapon=cadence_weapon
     heart=Heart()
@@ -54,9 +52,12 @@ def enter():
         bat.append(Bat())
     for i in range(dragon_num):
         dragon.append(Dragon())
+    choose_sound=load_wav('choose.wav')
+    choose_sound.play()
+
 
 def exit():
-    global cadence,heart,stick,skeleton,bat,dragon,map
+    global cadence,heart,stick,skeleton,bat,dragon,map,choose_sound
     del(cadence)
     del(heart)
     del(stick)
@@ -64,6 +65,7 @@ def exit():
     del(bat)
     del(dragon)
     del(map)
+    del(choose_sound)
 
 
 
@@ -100,6 +102,9 @@ def update():
     for i in range(dragon_num):
         if (dragon[i].life > 0):
             dragon[i].update()
+
+    if(cadence.life<=0):
+        game_framework.change_state(restart_state)
 
 
 
