@@ -753,6 +753,9 @@ class IdleState:
                 cadence.bomb.clip_composite_draw(int(cadence.bomb_frame + 3) * 74, 0, 74, 74, 0, ' ',cadence.x + (24 * (i - 1)), cadence.y, 24, 24)
                 cadence.bomb.clip_composite_draw(int(cadence.bomb_frame + 3) * 74, 0, 74, 74, 0, ' ',cadence.x + (24 * (i - 1)), cadence.y -24, 24, 24)
 
+        for i in range(cadence.life):
+            cadence.hp_image.draw(780-(24*i),550)
+
 next_state_table={
     IdleState:{RIGHT_ON:IdleState,LEFT_ON:IdleState,UP_ON:IdleState,DOWN_ON:IdleState,
                RIGHT_OFF:IdleState, LEFT_OFF:IdleState, UP_OFF:IdleState,DOWN_OFF:IdleState, SPACE:IdleState}
@@ -777,6 +780,7 @@ class Cadence:
         self.attack_effect=load_image('attack_effect.png')
         self.sword_effect=load_image('attack_sword.png')
         self.rapier_effect=load_image('attack_rapier.png')
+        self.hp_image=load_image('life.png')
         self.explode=load_wav('explode.wav')
         self.rhythm=0
         self.act=False

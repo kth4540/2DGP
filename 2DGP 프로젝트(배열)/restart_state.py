@@ -11,12 +11,14 @@ from DRAGON import Dragon
 
 name = "TitleState"
 death=None
+restart=None
 
 
 def enter():
-    global death
+    global death,restart
     death=load_wav('cadence_death.wav')
     death.play()
+    restart=load_image('restart.png')
 
 def exit():
     global death
@@ -61,7 +63,7 @@ def handle_events():
 
 def draw():
     clear_canvas()
-
+    restart.draw(400,300)
     update_canvas()
 
 
