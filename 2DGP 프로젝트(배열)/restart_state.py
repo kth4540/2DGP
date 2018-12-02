@@ -1,6 +1,12 @@
 import game_framework
-import weapon_state
+import title_state
 from pico2d import *
+import main_state
+import weapon_state
+
+from SKELETON import Skeleton
+from BAT import Bat
+from DRAGON import Dragon
 
 
 name = "TitleState"
@@ -25,15 +31,37 @@ def handle_events():
             game_framework.quit()
         else:
             if(event.type,event.key)==(SDL_KEYDOWN,SDLK_ESCAPE):
+                del (main_state.cadence)
+                del (main_state.heart)
+                del (main_state.stick)
+                del (main_state.skeleton)
+                del (main_state.bat)
+                del (main_state.dragon)
+                del (main_state.map)
+                del (main_state.choose_sound)
                 game_framework.quit()
             elif(event.type,event.key)==(SDL_KEYDOWN,SDLK_SPACE):
+
+                main_state.skeleton = []
+                main_state.skel_num = 2
+                main_state.bat = []
+                main_state.bat_num = 2
+                main_state.dragon = []
+                main_state.dragon_num = 1
+
+                for i in range(main_state.skel_num):
+                    main_state.skeleton.append(Skeleton())
+                for i in range(main_state.bat_num):
+                    main_state.bat.append(Bat())
+                for i in range(main_state.dragon_num):
+                    main_state.dragon.append(Dragon())
+
                 game_framework.change_state(weapon_state)
-
-
 
 
 def draw():
     clear_canvas()
+
     update_canvas()
 
 

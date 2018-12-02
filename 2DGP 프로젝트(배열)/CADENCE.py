@@ -393,7 +393,7 @@ class IdleState:
                 elif (cadence.weapon == 1):
 
                     if (cadence.y - 24 == main_state.skeleton[i].y and cadence.x >= main_state.skeleton[i].x - 24 and
-                            main_state.skeleton[i].x + 24):
+                            cadence.x<=main_state.skeleton[i].x + 24):
 
                         main_state.skeleton[i].life -= 1
 
@@ -449,7 +449,7 @@ class IdleState:
                 elif (cadence.weapon == 1):
 
                     if (cadence.y - 24 == main_state.dragon[i].y and cadence.x >= main_state.dragon[i].x - 24 and
-                            main_state.dragon[i].x + 24):
+                            cadence.x<=main_state.dragon[i].x + 24):
 
                         main_state.dragon[i].life -= 1
 
@@ -568,7 +568,7 @@ class IdleState:
                 elif (cadence.weapon == 1):
 
                     if (cadence.y + 24 == main_state.skeleton[i].y and cadence.x >= main_state.skeleton[i].x - 24 and
-                            main_state.skeleton[i].x + 24):
+                            cadence.x<=main_state.skeleton[i].x + 24):
 
                         main_state.skeleton[i].life -= 1
 
@@ -624,7 +624,7 @@ class IdleState:
                 elif (cadence.weapon == 1):
 
                     if (cadence.y + 24 == main_state.dragon[i].y and cadence.x >= main_state.dragon[i].x - 24 and
-                            main_state.dragon[i].x + 24):
+                            cadence.x<=main_state.dragon[i].x + 24):
 
                         main_state.dragon[i].life -= 1
 

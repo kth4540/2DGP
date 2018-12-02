@@ -57,15 +57,7 @@ def enter():
 
 
 def exit():
-    global cadence,heart,stick,skeleton,bat,dragon,map,choose_sound
-    del(cadence)
-    del(heart)
-    del(stick)
-    del(skeleton)
-    del(bat)
-    del(dragon)
-    del(map)
-    del(choose_sound)
+    pass
 
 
 
@@ -78,11 +70,28 @@ def resume():
 
 
 def handle_events():
+    global cadence, heart, stick, skeleton, bat, dragon, map, choose_sound
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
+            del(cadence)
+            del(heart)
+            del(stick)
+            del(skeleton)
+            del(bat)
+            del(dragon)
+            del(map)
+            del(choose_sound)
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+            del (cadence)
+            del (heart)
+            del (stick)
+            del (skeleton)
+            del (bat)
+            del (dragon)
+            del (map)
+            del (choose_sound)
             game_framework.quit()
         else:
             cadence.handle_event(event)
@@ -93,6 +102,7 @@ def update():
     heart.update()
     stick.update()
     cadence.update()
+
     for i in range(skel_num):
         if(skeleton[i].life>0):
             skeleton[i].update()
