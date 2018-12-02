@@ -35,13 +35,16 @@ bat_num=2
 dragon=[]
 dragon_num=1
 
-cadence = None
+cadence_weapon=0
+
+
 
 
 
 def enter():
     global cadence,heart,stick,skeleton,bat,dragon,map
     cadence=Cadence()
+    cadence.weapon=cadence_weapon
     heart=Heart()
     stick=Stick()
     map=Map()

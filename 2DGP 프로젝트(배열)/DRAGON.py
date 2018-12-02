@@ -22,7 +22,7 @@ class Dragon:
         self.enemy_attack=load_image('enemy_attack.png')
         self.fire=load_image('ice_blast.png')
         self.move=0
-        self.life=1
+        self.life=5
 
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4

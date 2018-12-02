@@ -5,7 +5,8 @@ class Map:
         self.image2=load_image('floor.png')
         self.music=load_music('zone1_2.mp3')  # BPM 115
         self.music.set_volume(50)
-        self.music.play()
+        self.music.repeat_play()
+
 
     def draw(self):
         for i in range(1,25+1):

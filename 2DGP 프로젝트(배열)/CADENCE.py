@@ -777,6 +777,7 @@ class Cadence:
         self.attack_effect=load_image('attack_effect.png')
         self.sword_effect=load_image('attack_sword.png')
         self.rapier_effect=load_image('attack_rapier.png')
+
         self.rhythm=0
         self.act=False
         self.dir=1
