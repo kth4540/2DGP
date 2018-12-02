@@ -11,6 +11,13 @@ from SKELETON import Skeleton
 from BAT import Bat
 from DRAGON import Dragon
 
+respawn_time=0
+respawn_check=0
+skel_respawn=True
+bat_respawn=True
+dragon_respawn=True
+
+respawn_shorten=0
 
 name = "MainState"
 
@@ -38,11 +45,12 @@ def enter():
     heart=Heart()
     stick=Stick()
     map=Map()
-    skeleton.append(Skeleton())
-    bat.append(Bat())
-    skeleton.append(Skeleton())
-    bat.append(Bat())
-    dragon.append(Dragon())
+    for i in range(skel_num):
+        skeleton.append(Skeleton())
+    for i in range(skel_num):
+        bat.append(Bat())
+    for i in range(dragon_num):
+        dragon.append(Dragon())
 
 def exit():
     global cadence,heart,stick,skeleton,bat,dragon,map
@@ -76,7 +84,7 @@ def handle_events():
 
 
 def update():
-    global skel_respawn,skel_respawn_time
+    global respawn_time,respawn_check,skel_num,bat_num,dragon_num,skel_respawn,bat_respawn,dragon_respawn,respawn_shorten
     heart.update()
     stick.update()
     cadence.update()
@@ -89,6 +97,37 @@ def update():
     for i in range(dragon_num):
         if (dragon[i].life > 0):
             dragon[i].update()
+
+
+
+    respawn_time+=400 * 130 / 60 * game_framework.frame_time
+
+    if respawn_time>=800:
+        respawn_time=0
+        respawn_check+=1
+        skel_respawn=False
+        bat_respawn=False
+        dragon_respawn=False
+
+    if (respawn_check%(10-respawn_shorten) == 0 and skel_respawn==False):
+        skeleton.append(Skeleton())
+        skel_num += 1
+        skel_respawn=True
+
+    if (respawn_check%(8-respawn_shorten) == 0 and bat_respawn==False):
+        bat.append(Bat())
+        bat_num += 1
+        bat_respawn=True
+
+    if (respawn_check%(60-(respawn_shorten*5)) == 0 and dragon_respawn==False):
+        dragon.append(Dragon())
+        dragon_num += 1
+        dragon_respawn=True
+        respawn_shorten+=1
+
+
+
+
 
 
 def draw():

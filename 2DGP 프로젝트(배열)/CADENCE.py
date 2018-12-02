@@ -27,9 +27,9 @@ key_event_table = {
 class IdleState:
     @staticmethod
     def enter(cadence,event):
-        if event==RIGHT_ON and cadence.rhythm>=300:
+        if event==RIGHT_ON and cadence.rhythm>=250:
             cadence.dir=1
-        elif event==LEFT_ON and cadence.rhythm>=300:
+        elif event==LEFT_ON and cadence.rhythm>=250:
             cadence.dir=-1
         elif event==UP_ON:
             pass
@@ -48,23 +48,23 @@ class IdleState:
 
     @staticmethod
     def exit(cadence,event):
-        if event==RIGHT_ON and cadence.act==False and cadence.rhythm>=300:
+        if event==RIGHT_ON and cadence.act==False and cadence.rhythm>=250:
             for i in range(main_state.bat_num):
                 if(cadence.weapon==0):
                     if (cadence.x + 24 == main_state.bat[i].x and cadence.y == main_state.bat[i].y):
-                        main_state.bat[i].life -= 1
-                        if(main_state.bat[i].life==0):
-                            main_state.bat[i].x = None
-                            main_state.bat[i].y = None
+                        main_state.bat[i].life -= 2
+                        if(main_state.bat[i].life<=0):
+                            main_state.bat[i].x = -100
+                            main_state.bat[i].y = -100
                         cadence.attack_dir=0
                         cadence.attack()
                         cadence.move_check=True
                 elif(cadence.weapon==1):
-                    if(cadence.x+24==main_state.bat[i].x and cadence.y>=main_state.bat[i].y-24 and main_state.bat[i].y+24):
+                    if(cadence.x+24==main_state.bat[i].x and cadence.y>=main_state.bat[i].y-24 and cadence.y<= main_state.bat[i].y+24):
                         main_state.bat[i].life -= 1
-                        if (main_state.bat[i].life == 0):
-                            main_state.bat[i].x = None
-                            main_state.bat[i].y = None
+                        if (main_state.bat[i].life <= 0):
+                            main_state.bat[i].x = -100
+                            main_state.bat[i].y = -100
                         cadence.attack_dir = 0
                         cadence.attack()
                         cadence.move_check = True
@@ -72,131 +72,598 @@ class IdleState:
                     if(cadence.x+24==main_state.bat[i].x or cadence.x+48==main_state.bat[i].x):
                         if(cadence.y==main_state.bat[i].y):
                             main_state.bat[i].life -= 1
-                            if (main_state.bat[i].life == 0):
-                                main_state.bat[i].x = None
-                                main_state.bat[i].y = None
+                            if (main_state.bat[i].life <= 0):
+                                main_state.bat[i].x = -100
+                                main_state.bat[i].y = -100
                             cadence.attack_dir = 0
                             cadence.attack()
                             cadence.move_check = True
             for i in range(main_state.skel_num):
-                if(cadence.x + 24 == main_state.skeleton[i].x and cadence.y == main_state.skeleton[i].y):
-                    main_state.skeleton[i].life -= 1
-                    if (main_state.skeleton[i].life == 0):
-                        main_state.skeleton[i].x = None
-                        main_state.skeleton[i].y = None
-                    cadence.attack_dir = 0
-                    cadence.attack()
-                    cadence.move_check=True
+                if(cadence.weapon==0):
+                    if (cadence.x + 24 == main_state.skeleton[i].x and cadence.y == main_state.skeleton[i].y):
+                        main_state.skeleton[i].life -= 2
+                        if(main_state.skeleton[i].life<=0):
+                            main_state.skeleton[i].x = -100
+                            main_state.skeleton[i].y = -100
+                        cadence.attack_dir=0
+                        cadence.attack()
+                        cadence.move_check=True
+                elif(cadence.weapon==1):
+                    if(cadence.x+24==main_state.skeleton[i].x and cadence.y>=main_state.skeleton[i].y-24 and cadence.y<= main_state.skeleton[i].y+24):
+                        main_state.skeleton[i].life -= 2
+                        if (main_state.skeleton[i].life <= 0):
+                            main_state.skeleton[i].x = -100
+                            main_state.skeleton[i].y = -100
+                        cadence.attack_dir = 0
+                        cadence.attack()
+                        cadence.move_check = True
+                elif(cadence.weapon==2):
+                    if(cadence.x+24==main_state.skeleton[i].x or cadence.x+48==main_state.skeleton[i].x):
+                        if(cadence.y==main_state.skeleton[i].y):
+                            main_state.skeleton[i].life -= 1
+                            if (main_state.skeleton[i].life <= 0):
+                                main_state.skeleton[i].x = -100
+                                main_state.skeleton[i].y = -100
+                            cadence.attack_dir = 0
+                            cadence.attack()
+                            cadence.move_check = True
             for i in range(main_state.dragon_num):
-                if(cadence.x + 24 == main_state.dragon[i].x and cadence.y == main_state.dragon[i].y):
-                    main_state.dragon[i].life -= 1
-                    if (main_state.dragon[i].life == 0):
-                        main_state.dragon[i].x = None
-                        main_state.dragon[i].y = None
-                    cadence.attack_dir = 0
-                    cadence.attack()
-                    cadence.move_check=True
+                if(cadence.weapon==0):
+                    if (cadence.x + 24 == main_state.dragon[i].x and cadence.y == main_state.dragon[i].y):
+                        main_state.dragon[i].life -= 2
+                        if(main_state.dragon[i].life<=0):
+                            main_state.dragon[i].x = -100
+                            main_state.dragon[i].y = -100
+                        cadence.attack_dir=0
+                        cadence.attack()
+                        cadence.move_check=True
+                elif(cadence.weapon==1):
+                    if(cadence.x+24==main_state.dragon[i].x and cadence.y>=main_state.dragon[i].y-24 and cadence.y<= main_state.dragon[i].y+24):
+                        main_state.dragon[i].life -= 1
+                        if (main_state.dragon[i].life <= 0):
+                            main_state.dragon[i].x = -100
+                            main_state.dragon[i].y = -100
+                        cadence.attack_dir = 0
+                        cadence.attack()
+                        cadence.move_check = True
+                elif(cadence.weapon==2):
+                    if(cadence.x+24==main_state.dragon[i].x or cadence.x+48==main_state.dragon[i].x):
+                        if(cadence.y==main_state.dragon[i].y):
+                            main_state.dragon[i].life -= 1
+                            if (main_state.dragon[i].life <= 0):
+                                main_state.dragon[i].x = -100
+                                main_state.dragon[i].y = -100
+                            cadence.attack_dir = 0
+                            cadence.attack()
+                            cadence.move_check = True
             if cadence.move_check==False and cadence.x+24<80+(24*25):
                 cadence.x+=24
             cadence.act = True
 
-        elif event==LEFT_ON and cadence.act==False and cadence.rhythm>=300:
+        elif event == LEFT_ON and cadence.act == False and cadence.rhythm >= 250:
+
             for i in range(main_state.bat_num):
-                if (cadence.x - 24 == main_state.bat[i].x and cadence.y == main_state.bat[i].y):
-                    main_state.bat[i].life -= 1
-                    if (main_state.bat[i].life == 0):
-                        main_state.bat[i].x = None
-                        main_state.bat[i].y = None
-                    cadence.attack_dir=1
-                    cadence.attack()
-                    cadence.move_check=True
+
+                if (cadence.weapon == 0):
+
+                    if (cadence.x - 24 == main_state.bat[i].x and cadence.y == main_state.bat[i].y):
+
+                        main_state.bat[i].life -= 2
+
+                        if (main_state.bat[i].life <= 0):
+                            main_state.bat[i].x = -100
+
+                            main_state.bat[i].y = -100
+
+                        cadence.attack_dir = 1
+
+                        cadence.attack()
+
+                        cadence.move_check = True
+
+                elif (cadence.weapon == 1):
+
+                    if (cadence.x - 24 == main_state.bat[i].x and cadence.y >= main_state.bat[i].y - 24 and
+                           cadence.y<= main_state.bat[i].y + 24):
+
+                        main_state.bat[i].life -= 1
+
+                        if (main_state.bat[i].life <= 0):
+                            main_state.bat[i].x = -100
+
+                            main_state.bat[i].y = -100
+
+                        cadence.attack_dir = 1
+
+                        cadence.attack()
+
+                        cadence.move_check = True
+
+                elif (cadence.weapon == 2):
+
+                    if (cadence.x - 24 == main_state.bat[i].x or cadence.x - 48 == main_state.bat[i].x):
+
+                        if (cadence.y == main_state.bat[i].y):
+
+                            main_state.bat[i].life -= 1
+
+                            if (main_state.bat[i].life <= 0):
+                                main_state.bat[i].x = -100
+
+                                main_state.bat[i].y = -100
+
+                            cadence.attack_dir = 1
+
+                            cadence.attack()
+
+                            cadence.move_check = True
+
             for i in range(main_state.skel_num):
-                if(cadence.x - 24 == main_state.skeleton[i].x and cadence.y == main_state.skeleton[i].y):
-                    main_state.skeleton[i].life -= 1
-                    if (main_state.skeleton[i].life == 0):
-                        main_state.skeleton[i].x = None
-                        main_state.skeleton[i].y = None
-                    cadence.attack_dir = 1
-                    cadence.attack()
-                    cadence.move_check=True
+
+                if (cadence.weapon == 0):
+
+                    if (cadence.x - 24 == main_state.skeleton[i].x and cadence.y == main_state.skeleton[i].y):
+
+                        main_state.skeleton[i].life -= 2
+
+                        if (main_state.skeleton[i].life <= 0):
+                            main_state.skeleton[i].x = -100
+
+                            main_state.skeleton[i].y = -100
+
+                        cadence.attack_dir = 1
+
+                        cadence.attack()
+
+                        cadence.move_check = True
+
+                elif (cadence.weapon == 1):
+
+                    if (cadence.x - 24 == main_state.skeleton[i].x and cadence.y >= main_state.skeleton[i].y - 24 and
+                            cadence.y<=main_state.skeleton[i].y + 24):
+
+                        main_state.skeleton[i].life -= 1
+
+                        if (main_state.skeleton[i].life <= 0):
+                            main_state.skeleton[i].x = -100
+
+                            main_state.skeleton[i].y = -100
+
+                        cadence.attack_dir = 1
+
+                        cadence.attack()
+
+                        cadence.move_check = True
+
+                elif (cadence.weapon == 2):
+
+                    if (cadence.x - 24 == main_state.skeleton[i].x or cadence.x - 48 == main_state.skeleton[i].x):
+
+                        if (cadence.y == main_state.skeleton[i].y):
+
+                            main_state.skeleton[i].life -= 1
+
+                            if (main_state.skeleton[i].life <= 0):
+                                main_state.skeleton[i].x = -100
+
+                                main_state.skeleton[i].y = -100
+
+                            cadence.attack_dir = 1
+
+                            cadence.attack()
+
+                            cadence.move_check = True
+
             for i in range(main_state.dragon_num):
-                if (cadence.x - 24 == main_state.dragon[i].x and cadence.y == main_state.dragon[i].y):
-                    main_state.dragon[i].life -= 1
-                    if (main_state.dragon[i].life == 0):
-                        main_state.dragon[i].x = None
-                        main_state.dragon[i].y = None
-                    cadence.attack_dir = 1
-                    cadence.attack()
-                    cadence.move_check = True
-            if cadence.move_check==False and cadence.x-24>104:
-                cadence.x-=24
+
+                if (cadence.weapon == 0):
+
+                    if (cadence.x - 24 == main_state.dragon[i].x and cadence.y == main_state.dragon[i].y):
+
+                        main_state.dragon[i].life -= 2
+
+                        if (main_state.dragon[i].life <= 0):
+                            main_state.dragon[i].x = -100
+
+                            main_state.dragon[i].y = -100
+
+                        cadence.attack_dir = 1
+
+                        cadence.attack()
+
+                        cadence.move_check = True
+
+                elif (cadence.weapon == 1):
+
+                    if (cadence.x - 24 == main_state.dragon[i].x and cadence.y >= main_state.dragon[i].y - 24 and
+                            cadence.y<=main_state.dragon[i].y + 24):
+
+                        main_state.dragon[i].life -= 1
+
+                        if (main_state.dragon[i].life <= 0):
+                            main_state.dragon[i].x = -100
+
+                            main_state.dragon[i].y = -100
+
+                        cadence.attack_dir = 1
+
+                        cadence.attack()
+
+                        cadence.move_check = True
+
+                elif (cadence.weapon == 2):
+
+                    if (cadence.x - 24 == main_state.dragon[i].x or cadence.x - 48 == main_state.dragon[i].x):
+
+                        if (cadence.y == main_state.dragon[i].y):
+
+                            main_state.dragon[i].life -= 1
+
+                            if (main_state.dragon[i].life <= 0):
+                                main_state.dragon[i].x = -100
+
+                                main_state.dragon[i].y = -100
+
+                            cadence.attack_dir = 1
+
+                            cadence.attack()
+
+                            cadence.move_check = True
+
+            if cadence.move_check == False and cadence.x - 24 > 80 +24 :
+                cadence.x -= 24
+
             cadence.act = True
 
-        elif event==DOWN_ON and cadence.act==False and cadence.rhythm>=300:
+        elif event == DOWN_ON and cadence.act == False and cadence.rhythm >= 250:
+
             for i in range(main_state.bat_num):
-                if (cadence.y - 24 == main_state.bat[i].y and cadence.x == main_state.bat[i].x):
-                    main_state.bat[i].life -= 1
-                    if (main_state.bat[i].life == 0):
-                        main_state.bat[i].x = None
-                        main_state.bat[i].y = None
-                    cadence.attack_dir = 2
-                    cadence.attack()
-                    cadence.move_check = True
+
+                if (cadence.weapon == 0):
+
+                    if (cadence.y - 24 == main_state.bat[i].y and cadence.x == main_state.bat[i].x):
+
+                        main_state.bat[i].life -= 2
+
+                        if (main_state.bat[i].life <= 0):
+                            main_state.bat[i].x = -100
+                            main_state.bat[i].y = -100
+
+                        cadence.attack_dir = 2
+
+                        cadence.attack()
+
+                        cadence.move_check = True
+
+                elif (cadence.weapon == 1):
+
+                    if (cadence.y - 24 == main_state.bat[i].y and cadence.x >= main_state.bat[i].x - 24 and
+                            cadence.x<=main_state.bat[i].x + 24):
+
+                        main_state.bat[i].life -= 1
+
+                        if (main_state.bat[i].life <= 0):
+                            main_state.bat[i].x = -100
+                            main_state.bat[i].y = -100
+
+                        cadence.attack_dir = 2
+
+                        cadence.attack()
+
+                        cadence.move_check = True
+
+                elif (cadence.weapon == 2):
+
+                    if (cadence.y - 24 == main_state.bat[i].y or cadence.y - 48 == main_state.bat[i].y):
+
+                        if (cadence.x == main_state.bat[i].x):
+
+                            main_state.bat[i].life -= 1
+
+                            if (main_state.bat[i].life <= 0):
+                                main_state.bat[i].x = -100
+
+                                main_state.bat[i].y = -100
+
+                            cadence.attack_dir = 2
+
+                            cadence.attack()
+
+                            cadence.move_check = True
+
             for i in range(main_state.skel_num):
-                if (cadence.y - 24 == main_state.skeleton[i].y and cadence.x == main_state.skeleton[i].x):
-                    main_state.skeleton[i].life -= 1
-                    if(main_state.skeleton[i].life==0):
-                        main_state.skeleton[i].x = None
-                        main_state.skeleton[i].y = None
-                    cadence.attack_dir = 2
-                    cadence.attack()
-                    cadence.move_check = True
+
+                if (cadence.weapon == 0):
+
+                    if (cadence.y - 24 == main_state.skeleton[i].y and cadence.x == main_state.skeleton[i].x):
+
+                        main_state.skeleton[i].life -= 2
+
+                        if (main_state.skeleton[i].life <= 0):
+                            main_state.skeleton[i].x = -100
+
+                            main_state.skeleton[i].y = -100
+
+                        cadence.attack_dir = 2
+
+                        cadence.attack()
+
+                        cadence.move_check = True
+
+                elif (cadence.weapon == 1):
+
+                    if (cadence.y - 24 == main_state.skeleton[i].y and cadence.x >= main_state.skeleton[i].x - 24 and
+                            main_state.skeleton[i].x + 24):
+
+                        main_state.skeleton[i].life -= 1
+
+                        if (main_state.skeleton[i].life <= 0):
+                            main_state.skeleton[i].x = -100
+
+                            main_state.skeleton[i].y = -100
+
+                        cadence.attack_dir = 2
+
+                        cadence.attack()
+
+                        cadence.move_check = True
+
+                elif (cadence.weapon == 2):
+
+                    if (cadence.y - 24 == main_state.skeleton[i].y or cadence.y - 48 == main_state.skeleton[i].y):
+
+                        if (cadence.x == main_state.skeleton[i].x):
+
+                            main_state.skeleton[i].life -= 1
+
+                            if (main_state.skeleton[i].life <= 0):
+                                main_state.skeleton[i].x = -100
+
+                                main_state.skeleton[i].y = -100
+
+                            cadence.attack_dir = 2
+
+                            cadence.attack()
+
+                            cadence.move_check = True
+
             for i in range(main_state.dragon_num):
-                if (cadence.y - 24 == main_state.dragon[i].y and cadence.x == main_state.dragon[i].x):
-                    main_state.dragon[i].life -= 1
-                    if (main_state.dragon[i].life == 0):
-                        main_state.dragon[i].x = None
-                        main_state.dragon[i].y = None
-                    cadence.attack_dir = 2
-                    cadence.attack()
-                    cadence.move_check = True
-            if cadence.move_check==False and cadence.y-24>510-(24*16):
-                cadence.y-=24
+
+                if (cadence.weapon == 0):
+
+                    if (cadence.y - 24 == main_state.dragon[i].y and cadence.x == main_state.dragon[i].x):
+
+                        main_state.dragon[i].life -= 2
+
+                        if (main_state.dragon[i].life <= 0):
+                            main_state.dragon[i].x = -100
+
+                            main_state.dragon[i].y = -100
+
+                        cadence.attack_dir = 2
+
+                        cadence.attack()
+
+                        cadence.move_check = True
+
+                elif (cadence.weapon == 1):
+
+                    if (cadence.y - 24 == main_state.dragon[i].y and cadence.x >= main_state.dragon[i].x - 24 and
+                            main_state.dragon[i].x + 24):
+
+                        main_state.dragon[i].life -= 1
+
+                        if (main_state.dragon[i].life <= 0):
+                            main_state.dragon[i].x = -100
+
+                            main_state.dragon[i].y = -100
+
+                        cadence.attack_dir = 2
+
+                        cadence.attack()
+
+                        cadence.move_check = True
+
+                elif (cadence.weapon == 2):
+
+                    if (cadence.y - 24 == main_state.dragon[i].y or cadence.y - 48 == main_state.dragon[i].y):
+
+                        if (cadence.x == main_state.dragon[i].x):
+
+                            main_state.dragon[i].life -= 1
+
+                            if (main_state.dragon[i].life <= 0):
+                                main_state.dragon[i].x = -100
+
+                                main_state.dragon[i].y = -100
+
+                            cadence.attack_dir = 2
+
+                            cadence.attack()
+
+                            cadence.move_check = True
+
+            if cadence.move_check == False and cadence.y - 24 > 510-(24*16) :
+                cadence.y -= 24
+
             cadence.act = True
 
-        elif event==UP_ON and cadence.act==False and cadence.rhythm>=300:
+
+
+        elif event == UP_ON and cadence.act == False and cadence.rhythm >= 250:
+
             for i in range(main_state.bat_num):
-                if (cadence.y + 24 == main_state.bat[i].y and cadence.x == main_state.bat[i].x):
-                    main_state.bat[i].life -= 1
-                    if (main_state.bat[i].life == 0):
-                        main_state.bat[i].x = None
-                        main_state.bat[i].y = None
-                    cadence.attack_dir = 3
-                    cadence.attack()
-                    cadence.move_check = True
+
+                if (cadence.weapon == 0):
+
+                    if (cadence.y + 24 == main_state.bat[i].y and cadence.x == main_state.bat[i].x):
+
+                        main_state.bat[i].life -= 2
+
+                        if (main_state.bat[i].life <= 0):
+                            main_state.bat[i].x = -100
+                            main_state.bat[i].y = -100
+
+                        cadence.attack_dir = 3
+
+                        cadence.attack()
+
+                        cadence.move_check = True
+
+                elif (cadence.weapon == 1):
+
+                    if (cadence.y + 24 == main_state.bat[i].y and cadence.x >= main_state.bat[i].x - 24 and
+                            cadence.x <= main_state.bat[i].x + 24):
+
+                        main_state.bat[i].life -= 1
+
+                        if (main_state.bat[i].life <= 0):
+                            main_state.bat[i].x = -100
+                            main_state.bat[i].y = -100
+
+                        cadence.attack_dir = 3
+
+                        cadence.attack()
+
+                        cadence.move_check = True
+
+                elif (cadence.weapon == 2):
+
+                    if (cadence.y + 24 == main_state.bat[i].y or cadence.y + 48 == main_state.bat[i].y):
+
+                        if (cadence.x == main_state.bat[i].x):
+
+                            main_state.bat[i].life -= 1
+
+                            if (main_state.bat[i].life <= 0):
+                                main_state.bat[i].x = -100
+
+                                main_state.bat[i].y = -100
+
+                            cadence.attack_dir = 3
+
+                            cadence.attack()
+
+                            cadence.move_check = True
+
             for i in range(main_state.skel_num):
-                if (cadence.y + 24 == main_state.skeleton[i].y and cadence.x == main_state.skeleton[i].x):
-                    main_state.skeleton[i].life -= 1
-                    if (main_state.skeleton[i].life == 0):
-                        main_state.skeleton[i].x = None
-                        main_state.skeleton[i].y = None
-                    cadence.attack_dir = 3
-                    cadence.attack()
-                    cadence.move_check = True
+
+                if (cadence.weapon == 0):
+
+                    if (cadence.y + 24 == main_state.skeleton[i].y and cadence.x == main_state.skeleton[i].x):
+
+                        main_state.skeleton[i].life -= 2
+
+                        if (main_state.skeleton[i].life <= 0):
+                            main_state.skeleton[i].x = -100
+
+                            main_state.skeleton[i].y = -100
+
+                        cadence.attack_dir = 3
+
+                        cadence.attack()
+
+                        cadence.move_check = True
+
+                elif (cadence.weapon == 1):
+
+                    if (cadence.y + 24 == main_state.skeleton[i].y and cadence.x >= main_state.skeleton[i].x - 24 and
+                            main_state.skeleton[i].x + 24):
+
+                        main_state.skeleton[i].life -= 1
+
+                        if (main_state.skeleton[i].life <= 0):
+                            main_state.skeleton[i].x = -100
+
+                            main_state.skeleton[i].y = -100
+
+                        cadence.attack_dir = 3
+
+                        cadence.attack()
+
+                        cadence.move_check = True
+
+                elif (cadence.weapon == 2):
+
+                    if (cadence.y + 24 == main_state.skeleton[i].y or cadence.y + 48 == main_state.skeleton[i].y):
+
+                        if (cadence.x == main_state.skeleton[i].x):
+
+                            main_state.skeleton[i].life -= 1
+
+                            if (main_state.skeleton[i].life <= 0):
+                                main_state.skeleton[i].x = -100
+
+                                main_state.skeleton[i].y = -100
+
+                            cadence.attack_dir = 3
+
+                            cadence.attack()
+
+                            cadence.move_check = True
+
             for i in range(main_state.dragon_num):
-                if (cadence.y + 24 == main_state.dragon[i].y and cadence.x == main_state.dragon[i].x):
-                    main_state.dragon[i].life -= 1
-                    if (main_state.dragon[i].life == 0):
-                        main_state.dragon[i].x = None
-                        main_state.dragon[i].y = None
-                    cadence.attack_dir = 3
-                    cadence.attack()
-                    cadence.move_check = True
-            if cadence.move_check==False and cadence.y+24<510-24:
-                cadence.y+=24
+
+                if (cadence.weapon == 0):
+
+                    if (cadence.y + 24 == main_state.dragon[i].y and cadence.x == main_state.dragon[i].x):
+
+                        main_state.dragon[i].life -= 2
+
+                        if (main_state.dragon[i].life <= 0):
+                            main_state.dragon[i].x = -100
+
+                            main_state.dragon[i].y = -100
+
+                        cadence.attack_dir = 3
+
+                        cadence.attack()
+
+                        cadence.move_check = True
+
+                elif (cadence.weapon == 1):
+
+                    if (cadence.y + 24 == main_state.dragon[i].y and cadence.x >= main_state.dragon[i].x - 24 and
+                            main_state.dragon[i].x + 24):
+
+                        main_state.dragon[i].life -= 1
+
+                        if (main_state.dragon[i].life <= 0):
+                            main_state.dragon[i].x = -100
+
+                            main_state.dragon[i].y = -100
+
+                        cadence.attack_dir = 3
+
+                        cadence.attack()
+
+                        cadence.move_check = True
+
+                elif (cadence.weapon == 2):
+
+                    if (cadence.y + 24 == main_state.dragon[i].y or cadence.y + 48 == main_state.dragon[i].y):
+
+                        if (cadence.x == main_state.dragon[i].x):
+
+                            main_state.dragon[i].life -= 1
+
+                            if (main_state.dragon[i].life <= 0):
+                                main_state.dragon[i].x = -100
+
+                                main_state.dragon[i].y = -100
+
+                            cadence.attack_dir = 3
+
+                            cadence.attack()
+
+                            cadence.move_check = True
+
+            if cadence.move_check == False and cadence.y + 24 < 510 - 24:
+                cadence.y += 24
+
             cadence.act = True
 
-        elif event == SPACE and cadence.act == False and cadence.rhythm >= 300:
+        elif event == SPACE and cadence.act == False and cadence.rhythm >= 250:
             cadence.Bomb()
 
 
@@ -225,7 +692,7 @@ class IdleState:
             cadence.rapier_frame=0
             cadence.attack_check=False
 
-        cadence.rhythm+=400*115/60*game_framework.frame_time
+        cadence.rhythm+=400*130/60*game_framework.frame_time
         if cadence.rhythm>=400:
             cadence.act=False
             cadence.rhythm=0
@@ -248,11 +715,37 @@ class IdleState:
                 cadence.rapier_effect.clip_composite_draw(int(cadence.rapier_frame)*48,0,48,24,0,' ',cadence.x+24,cadence.y,48,24)
 
         elif (cadence.attack_check == True and cadence.attack_dir==1):
-            cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, 0, 'h', cadence.x - 24,cadence.y, 24, 24)
+            if (cadence.weapon == 0):
+                cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, 0, 'h',cadence.x - 24, cadence.y, 24, 24)
+            elif (cadence.weapon == 1):
+                cadence.sword_effect.clip_composite_draw(int(cadence.sword_frame) * 24, 0, 24, 72, 0, 'h', cadence.x - 24, cadence.y, 24, 72)
+            elif (cadence.weapon == 2):
+                cadence.rapier_effect.clip_composite_draw(int(cadence.rapier_frame) * 48, 0, 48, 24, 0, 'h',cadence.x - 24, cadence.y, 48, 24)
+
         elif (cadence.attack_check == True and cadence.attack_dir == 2):
-            cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, math.radians(-90), '', cadence.x,cadence.y-24, 24, 24)
+            if (cadence.weapon == 0):
+                cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, math.radians(-90), ' ',
+                                                          cadence.x, cadence.y-24, 24, 24)
+            elif (cadence.weapon == 1):
+                cadence.sword_effect.clip_composite_draw(int(cadence.sword_frame) * 24, 0, 24, 72, math.radians(-90), ' ',
+                                                         cadence.x, cadence.y-24, 24, 72)
+            elif (cadence.weapon == 2):
+                cadence.rapier_effect.clip_composite_draw(int(cadence.rapier_frame) * 48, 0, 48, 24, math.radians(-90), ' ',
+                                                          cadence.x, cadence.y-24, 48, 24)
+
         elif (cadence.attack_check == True and cadence.attack_dir == 3):
-            cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, math.radians(90), '', cadence.x,cadence.y+24, 24, 24)
+            if (cadence.weapon == 0):
+                cadence.attack_effect.clip_composite_draw(int(cadence.attack_frame) * 24, 0, 24, 24, math.radians(90),
+                                                          ' ',
+                                                          cadence.x, cadence.y + 24, 24, 24)
+            elif (cadence.weapon == 1):
+                cadence.sword_effect.clip_composite_draw(int(cadence.sword_frame) * 24, 0, 24, 72, math.radians(90),
+                                                         ' ',
+                                                         cadence.x, cadence.y + 24, 24, 72)
+            elif (cadence.weapon == 2):
+                cadence.rapier_effect.clip_composite_draw(int(cadence.rapier_frame) * 48, 0, 48, 24, math.radians(90),
+                                                          ' ',
+                                                          cadence.x, cadence.y + 24, 48, 24)
 
         if(cadence.bomb_check==True):
             for i in range (3):
@@ -270,6 +763,7 @@ next_state_table={
 class Cadence:
     def __init__(self):
         self.x, self.y = 104+24, 500-24
+        self.life=10
         self.move_check=False
         self.frame = 0
         self.attack_frame=0
@@ -284,7 +778,7 @@ class Cadence:
         self.sword_effect=load_image('attack_sword.png')
         self.rapier_effect=load_image('attack_rapier.png')
         self.rhythm=0
-        self.act=True
+        self.act=False
         self.dir=1
         self.attack_dir=0
         self.bomb_check=False
@@ -311,6 +805,30 @@ class Cadence:
 
     def Bomb(self):
         self.bomb_check=True
+        for i in range(main_state.skel_num):
+            if(main_state.skeleton[i].x<=self.x+24 and main_state.skeleton[i].x>=self.x-24
+            and main_state.skeleton[i].y<=self.y+24 and main_state.skeleton[i].y>=self.y-24):
+                main_state.skeleton[i].life=0
+                main_state.skeleton[i].x=-100
+                main_state.skeleton[i].y = -100
+
+        for i in range(main_state.bat_num):
+            if(main_state.bat[i].x<=self.x+24 and main_state.bat[i].x>=self.x-24
+            and main_state.bat[i].y<=self.y+24 and main_state.bat[i].y>=self.y-24):
+                main_state.bat[i].life=0
+                main_state.bat[i].x = -100
+                main_state.bat[i].y = -100
+
+        for i in range(main_state.dragon_num):
+            if (main_state.dragon[i].x <= self.x + 24 and main_state.dragon[i].x >= self.x - 24
+                and main_state.dragon[i].y <= self.y + 24 and main_state.dragon[i].y >= self.y - 24):
+                main_state.dragon[i].life = 0
+                main_state.dragon[i].x = -100
+                main_state.dragon[i].y = -100
+
+        self.life-=1
+
+
 
     def draw(self):
         self.cur_state.draw(self)

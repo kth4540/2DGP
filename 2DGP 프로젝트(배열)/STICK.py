@@ -7,7 +7,7 @@ class Stick():
         self.image=load_image('stick.png')
 
     def update(self):
-        self.x+=400*115/60*game_framework.frame_time
+        self.x+=400*130/60*game_framework.frame_time
         if(self.x>=400):
             self.x=0
 

@@ -3,7 +3,7 @@ class Map:
     def __init__(self):
         self.image1=load_image('wall.png')
         self.image2=load_image('floor.png')
-        self.music=load_music('zone1.mp3')  # BPM 115
+        self.music=load_music('zone1_2.mp3')  # BPM 115
         self.music.set_volume(50)
         self.music.play()
 

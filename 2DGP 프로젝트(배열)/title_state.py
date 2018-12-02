@@ -5,16 +5,22 @@ from pico2d import *
 
 name = "TitleState"
 image = None
+lobby_sound=None
 
 
 def enter():
     global image
-    image=load_image('title.png')
-
+    global lobby_sound
+    image=load_image('mainmenu.png')
+    lobby_sound=load_music('lobby.mp3')
+    lobby_sound.set_volume(50)
+    lobby_sound.play()
 
 def exit():
     global image
+    global lobby_sound
     del(image)
+    del(lobby_sound)
 
 
 def handle_events():
@@ -33,7 +39,7 @@ def handle_events():
 
 def draw():
     clear_canvas()
-    image.draw(400,300)
+    image.clip_composite_draw(0,0,480,270,0,' ',400,300,800,600)
     update_canvas()
 
 
