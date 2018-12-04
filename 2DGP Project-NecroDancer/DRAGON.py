@@ -47,7 +47,7 @@ class Dragon:
                     if (self.x-main_state.cadence.x<=48 and self.y == main_state.cadence.y):
                         self.move_check = True
                         self.fire_check=True
-                        main_state.cadence.life -= 1
+                        main_state.cadence.life -= 3
                     for i in range(main_state.bat_num):
                         if (self.x - 24 == main_state.bat[i].x and self.y == main_state.bat[i].y):
                             self.move_check = True
@@ -61,7 +61,7 @@ class Dragon:
                     if (main_state.cadence.x-self.x<=48 and self.y == main_state.cadence.y):
                         self.move_check = True
                         self.fire_check=True
-                        main_state.cadence.life -= 1
+                        main_state.cadence.life -= 3
                     for i in range(main_state.bat_num):
                         if (self.x + 24 == main_state.bat[i].x and self.y == main_state.bat[i].y):
                             self.move_check = True
@@ -76,7 +76,7 @@ class Dragon:
                     if (self.x == main_state.cadence.x and self.y - 24 == main_state.cadence.y):
                         self.move_check = True
                         self.attack_check = True
-                        main_state.cadence.life -= 1
+                        main_state.cadence.life -= 2
 
                     for i in range(main_state.bat_num):
                         if (self.x == main_state.bat[i].x and self.y - 24 == main_state.bat[i].y):
@@ -91,7 +91,7 @@ class Dragon:
                     if (self.x == main_state.cadence.x and self.y + 24 == main_state.cadence.y):
                         self.move_check = True
                         self.attack_check=True
-                        main_state.cadence.life -= 1
+                        main_state.cadence.life -= 2
 
                     for i in range(main_state.bat_num):
                         if (self.x == main_state.bat[i].x and self.y + 24 == main_state.bat[i].y):

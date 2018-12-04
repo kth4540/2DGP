@@ -1,20 +1,27 @@
 import game_framework
 import main_state
+import weapon_state
 from pico2d import *
 
 
 name = "TitleState"
 image = None
+lobby_sound=None
 
 
 def enter():
     global image
-    image=load_image('title.png')
-
+    global lobby_sound
+    image=load_image('mainmenu.png')
+    lobby_sound=load_music('lobby.mp3')
+    lobby_sound.set_volume(100)
+    lobby_sound.repeat_play()
 
 def exit():
     global image
+    global lobby_sound
     del(image)
+    del(lobby_sound)
 
 
 def handle_events():
@@ -26,14 +33,14 @@ def handle_events():
             if(event.type,event.key)==(SDL_KEYDOWN,SDLK_ESCAPE):
                 game_framework.quit()
             elif(event.type,event.key)==(SDL_KEYDOWN,SDLK_SPACE):
-                game_framework.change_state(main_state)
+                game_framework.change_state(weapon_state)
 
 
 
 
 def draw():
     clear_canvas()
-    image.draw(400,300)
+    image.clip_composite_draw(0,0,480,270,0,' ',400,300,800,600)
     update_canvas()
 
 
